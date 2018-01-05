@@ -6,6 +6,7 @@ import store from '../store';
 
 import ReduxComponent from './Redux';
 import MobXComponent from './MobX';
+import RemobComponent from './Remob';
 
 export default () => (
   <div>
@@ -23,6 +24,9 @@ export default () => (
     </div>
     <div>
       remob
+      <ReduxProvider store={store.remob}>
+        <RemobComponent />
+      </ReduxProvider>
     </div>
   </div>
 );
