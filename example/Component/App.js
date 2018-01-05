@@ -5,11 +5,11 @@ import { Provider as ReduxProvider } from 'react-redux';
 // mobx
 import { Provider as MobXProvider } from 'mobx-react';
 // redux relative
-import simpleRedux from './simple/redux';
-import ReduxComponent from './ReduxComponent';
+import simpleRedux from '../simple/redux';
+import ReduxComponent from './Redux';
 // mobx relative
-import simpleMobx from './simple/mobx';
-import MobXComponent from './MobXComponent';
+import simpleMobx from '../simple/mobx';
+import MobXComponent from './MobX';
 
 const reduxStore = createStore(combineReducers({
   simple: simpleRedux,
