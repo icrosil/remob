@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 const ReduxComponent = ({ simple }) => (
   <div>
-    {simple.field}
+    {simple && simple.field}
   </div>
 );
 

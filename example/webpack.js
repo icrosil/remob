@@ -29,4 +29,5 @@ module.exports = {
     }),
     new WebpackCleanupPlugin(),
   ],
+  devtool: 'source-map',
 };

@@ -28,6 +28,7 @@
   "dependencies": {
     "core-decorators": "^0.20.0",
     "html-webpack-plugin": "^2.30.1",
+    "lodash": "^4.17.4",
     "mobx": "^3.4.1",
     "mobx-react": "^4.3.5",
     "prop-types": "^15.6.0",
