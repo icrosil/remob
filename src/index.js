@@ -1,3 +1,2 @@
 export { Reducer } from './Reducer';
-
-export default null;
+export { action } from './action';

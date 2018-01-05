@@ -1,5 +1,8 @@
-import { Reducer } from '../../src/';
+import { Reducer, action } from '../../src/';
 
-class SimpleReducer extends Reducer {}
+export class SimpleReducer extends Reducer {
+  state = { field: 0 };
+  @action('field') randomize = () => Math.random()
+}
 
-export default new SimpleReducer();
+export default SimpleReducer;
