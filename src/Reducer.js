@@ -1,6 +1,10 @@
 class Reducer {
-  constructor(initialState = {}) {
-    this.initialState = initialState;
+  state = {};
+  constructor(initialState = this.state) {
+    this.state = initialState;
+  }
+  get reducer() {
+    // TODO implement
   }
 }
 

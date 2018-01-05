@@ -16,4 +16,5 @@ ReduxComponent.defaultProps = {
   simple: {},
 };
 
+// TODO probably another connect
 export default connect(state => state)(ReduxComponent);
