@@ -9,6 +9,7 @@ class MobXComponent extends Component {
     return (
       <div>
         {simple.field}
+        <button onClick={simple.randomize}>randomize</button>
       </div>
     );
   }

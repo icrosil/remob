@@ -6,6 +6,7 @@ import isFunction from 'lodash/isFunction';
 import Reducer from './Reducer';
 
 export default (remobs) => {
+  // TODO probably i should only allow instances, not classes
   // TODO move this description somewhere appropriate
   // remob could be an class or an instance
   // class could have initial state as state member
