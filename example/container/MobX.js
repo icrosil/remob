@@ -10,7 +10,11 @@ class MobXComponent extends Component {
     const { simple } = this.props;
     return (
       <div>
-        <Simple value={simple.field} onClick={simple.randomize} />
+        <Simple
+          value={simple.field}
+          onClick={simple.randomize}
+          formattedValue={simple.formatValue}
+        />
       </div>
     );
   }

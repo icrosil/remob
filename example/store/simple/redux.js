@@ -10,6 +10,8 @@ export const randomize = dispatch => dispatch({
   type: ACTIONS.RANDOMIZE,
 });
 
+export const formatValue = value => 1 + value;
+
 export const randomizeReducer = (state = initialState, action) => {
   switch (action.type) {
     case ACTIONS.RANDOMIZE:

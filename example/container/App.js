@@ -4,28 +4,28 @@ import { Provider as MobXProvider } from 'mobx-react';
 
 import store from '../store';
 
-import ReduxComponent from './Redux';
-import MobXComponent from './MobX';
-import RemobComponent from './Remob';
+import ReduxContainer from './Redux';
+import MobXContainer from './MobX';
+import RemobContainer from './Remob';
 
 export default () => (
   <div>
     <div>
       redux
       <ReduxProvider store={store.redux}>
-        <ReduxComponent />
+        <ReduxContainer />
       </ReduxProvider>
     </div>
     <div>
       mobx
       <MobXProvider {...store.mobx}>
-        <MobXComponent />
+        <MobXContainer />
       </MobXProvider>
     </div>
     <div>
       remob
       <ReduxProvider store={store.remob}>
-        <RemobComponent />
+        <RemobContainer />
       </ReduxProvider>
     </div>
   </div>
