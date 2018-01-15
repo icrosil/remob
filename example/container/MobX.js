@@ -13,6 +13,7 @@ class MobXComponent extends Component {
         <Simple
           value={simple.field}
           onClick={simple.randomize}
+          onClickThunk={simple.thunkRandomize}
           formattedValue={simple.formatValue}
         />
       </div>
