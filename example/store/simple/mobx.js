@@ -7,6 +7,7 @@ class RandomizeStore {
   @action randomize() {
     this.field = Math.random();
   }
+  // TODO make analogue of thunkRandomize with access to any other store
   @computed get formatValue() {
     return this.field + 1;
   }

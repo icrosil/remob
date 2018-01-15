@@ -19,13 +19,15 @@ const actioner = (func, field) => {
 // TODO make reducer to answer that exact namespaced action and run originalMethod
 // TODO make @action and @action() to work equal
 // TODO use core-decorators example as good practice for naming etc
+// TODO think about move out logic of this decorator and let action be like thunk
 /**
  * action decorator
  * @method
  * @param  {String|Undefined} field list or element what will be changed
  * @return {Function}       updated function with magical changes
  */
-export default field => (AppliedClass, method, _ref) => {
+// TODO rename dispatcherToCall
+export default (field, dispatcherToCall = dispatcher) => (AppliedClass, method, _ref) => {
   const { value: fn, configurable, enumerable } = _ref;
   if (typeof fn !== 'function' || typeof method !== 'string') {
     throw new SyntaxError(`action decorator method ${method} is not a function.`);
@@ -34,7 +36,7 @@ export default field => (AppliedClass, method, _ref) => {
   // TODO check is this way is good enough
   AppliedClass.actions = AppliedClass.actions || {};
   AppliedClass.actions[method] = actioner(fn, field);
-  const property = dispatcher(method);
+  const property = dispatcherToCall(method, fn);
   return {
     configurable,
     enumerable,

@@ -36,6 +36,7 @@
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0",
     "webpack": "^3.10.0",
     "webpack-cleanup-plugin": "^0.5.1",
     "webpack-dev-server": "^2.9.7"

@@ -13,6 +13,7 @@ const RemobComponent = ({ simple, simpleAction }) => (
     <Simple
       value={simple.field}
       onClick={simpleAction.randomize}
+      onClickThunk={simpleAction.thunkRandomize}
       formattedValue={simple.formatValue}
     />
   </div>

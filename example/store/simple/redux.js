@@ -6,8 +6,10 @@ const initialState = {
   field: 0,
 };
 
-export const randomize = dispatch => dispatch({
-  type: ACTIONS.RANDOMIZE,
+export const randomize = dispatch => dispatch({ type: ACTIONS.RANDOMIZE });
+
+export const thunkRandomize = dispatch => dispatch((fire) => {
+  randomize(fire);
 });
 
 export const formatValue = value => 1 + value;
