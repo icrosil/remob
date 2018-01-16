@@ -2,7 +2,7 @@ export const ACTIONS = {
   RANDOMIZE: 'RANDOMIZE',
 };
 
-const initialState = {
+export const initialState = {
   field: 0,
 };
 

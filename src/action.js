@@ -1,15 +1,17 @@
 /* eslint no-param-reassign: 0 */
+
+import _ from 'lodash';
 // TODO make dispatcher reassignable
 // TODO add namespacing to dispatcher
 // TODO pass value somehow
-const dispatcher = method => dispatch => dispatch({ type: method });
+const dispatcher = method => (dispatch, type = method) => dispatch({ type });
 // TODO find better name
 // TODO add array usage if needed
-const actioner = (func, field) => {
+export const actioner = (func, field, isFullStatePassed = true) => {
   if (typeof field === 'string') {
     return (state, action) => ({
       ...state,
-      [field]: func(state, action),
+      [field]: func(isFullStatePassed ? state : state[field], action),
     });
   }
   return (state, action) => func(state, action);
@@ -32,11 +34,17 @@ export default (field, dispatcherToCall = dispatcher) => (AppliedClass, method, 
   if (typeof fn !== 'function' || typeof method !== 'string') {
     throw new SyntaxError(`action decorator method ${method} is not a function.`);
   }
+  // TODO refactor this
+  // TODO add this only for current class, don't pass it over as inherit
+  const propertyName = _.camelCase(`${AppliedClass.constructor.name}_${method}`);
   // TODO describe why to do so and find easier option
   // TODO check is this way is good enough
+  // TODO have static class in reducer to listen/subscribe
   AppliedClass.actions = AppliedClass.actions || {};
   AppliedClass.actions[method] = actioner(fn, field);
-  const property = dispatcherToCall(method, fn);
+  const property = dispatcherToCall(propertyName, fn);
+  AppliedClass.dispatches = AppliedClass.dispatches || {};
+  AppliedClass.dispatches[method] = property;
   return {
     configurable,
     enumerable,

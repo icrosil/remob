@@ -4,9 +4,11 @@ import mapValues from 'lodash/mapValues';
 import { combineRemob } from '../../src';
 
 import * as simple from './simple';
+import * as inherit from './inherit';
 
 const stores = {
   simple,
+  inherit,
 };
 
 const redux = mapValues(stores, 'redux');
