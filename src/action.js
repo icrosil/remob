@@ -31,6 +31,7 @@ export const actioner = (func, field, isFullStatePassed = true) => {
 // TODO rename dispatcherToCall
 export default (field, dispatcherToCall = dispatcher) => (AppliedClass, method, _ref) => {
   const { value: fn, configurable, enumerable } = _ref;
+  const boundFn = fn.bind(AppliedClass);
   if (typeof fn !== 'function' || typeof method !== 'string') {
     throw new SyntaxError(`action decorator method ${method} is not a function.`);
   }
@@ -41,8 +42,8 @@ export default (field, dispatcherToCall = dispatcher) => (AppliedClass, method, 
   // TODO check is this way is good enough
   // TODO have static class in reducer to listen/subscribe
   AppliedClass.actions = AppliedClass.actions || {};
-  AppliedClass.actions[method] = actioner(fn, field);
-  const property = dispatcherToCall(propertyName, fn);
+  AppliedClass.actions[method] = actioner(boundFn, field);
+  const property = dispatcherToCall(propertyName, boundFn);
   AppliedClass.dispatches = AppliedClass.dispatches || {};
   AppliedClass.dispatches[method] = property;
   return {
