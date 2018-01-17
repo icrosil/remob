@@ -1,12 +1,10 @@
 import { combineReducers } from 'redux';
 import mapValues from 'lodash/mapValues';
 import isObject from 'lodash/isObject';
-import isFunction from 'lodash/isFunction';
 
 import Reducer from './Reducer';
 
 export default (remobs) => {
-  // TODO probably i should only allow instances, not classes
   // TODO move this description somewhere appropriate
   // remob could be an class or an instance
   // class could have initial state as state member
@@ -16,7 +14,6 @@ export default (remobs) => {
   // and reset state easily
   const reducers = mapValues(remobs, (Remob) => {
     if (isObject(Remob) && Remob instanceof Reducer) return Remob.reducer;
-    if (isFunction(Remob) && Remob.prototype instanceof Reducer) return new Remob().reducer;
     return Remob;
   });
   return combineReducers(reducers);

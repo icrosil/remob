@@ -2,14 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-// TODO investigate how to pass actions from store without importing
 import simpleStore from '../store/simple/remob';
 import inheritStore from '../store/inherit/remob';
 import Simple from '../component/Simple';
 import Inherit from '../component/Inherit';
 import { inject } from '../../src';
 
-// TODO investigate how to combine simple and simpleAction
 const RemobComponent = ({
   simple,
   simpleAction,
