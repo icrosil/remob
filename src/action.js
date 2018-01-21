@@ -1,12 +1,10 @@
 /* eslint no-param-reassign: 0 */
 
-import _ from 'lodash';
 // TODO make dispatcher reassignable
 // TODO add namespacing to dispatcher
 // TODO pass value somehow
 const dispatcher = method => (dispatch, type = method) => dispatch({ type });
 // TODO find better name
-// TODO add array usage if needed
 export const actioner = (func, field, isFullStatePassed = true) => {
   if (typeof field === 'string') {
     return (state, action) => ({
@@ -29,23 +27,24 @@ export const actioner = (func, field, isFullStatePassed = true) => {
  * @return {Function}       updated function with magical changes
  */
 // TODO rename dispatcherToCall
-export default (field, dispatcherToCall = dispatcher) => (AppliedClass, method, _ref) => {
+export default (field, dispatcherToCall = dispatcher) => (klass, method, _ref) => {
   const { value: fn, configurable, enumerable } = _ref;
-  const boundFn = fn.bind(AppliedClass);
+  const boundFn = fn.bind(klass);
   if (typeof fn !== 'function' || typeof method !== 'string') {
     throw new SyntaxError(`action decorator method ${method} is not a function.`);
   }
   // TODO refactor this
   // TODO add this only for current class, don't pass it over as inherit
-  const propertyName = _.camelCase(`${AppliedClass.constructor.name}_${method}`);
+  // TODO check if Applied class is reducer
+  const propertyName = klass.getActionName(klass, method);
   // TODO describe why to do so and find easier option
   // TODO check is this way is good enough
   // TODO have static class in reducer to listen/subscribe
-  AppliedClass.actions = AppliedClass.actions || {};
-  AppliedClass.actions[method] = actioner(boundFn, field);
+  klass.actions = klass.getActions();
+  klass.actions[method] = actioner(boundFn, field);
   const property = dispatcherToCall(propertyName, boundFn);
-  AppliedClass.dispatches = AppliedClass.dispatches || {};
-  AppliedClass.dispatches[method] = property;
+  klass.dispatches = klass.getDispatches();
+  klass.dispatches[method] = property;
   return {
     configurable,
     enumerable,

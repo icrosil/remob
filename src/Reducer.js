@@ -1,12 +1,16 @@
+/* eslint no-param-reassign: 0 */
+
 import _ from 'lodash';
 
 import { actioner } from './action';
 
 // TODO make all static and use without new
 export default class Reducer {
-  initialState = {};
+  getActionName(klass, methodName) {
+    return `${klass.constructor.name}.${methodName}`;
+  }
   getInitialState() {
-    return this.initialState;
+    return this.initialState || {};
   }
   // TODO probably somehow refactor this to have consistent with state
   getActions() {
@@ -26,6 +30,7 @@ export default class Reducer {
   // TODO check do i need this state setter, would it be useful?
   // TODO do i need here to pass initialState?
   constructor() {
+    // TODO split this big loginc into parts
     // TODO add to every action/dispatch -> name of current store to set uniq
     const initialState = this.getInitialState();
     const actions = this.getActions();
@@ -39,27 +44,24 @@ export default class Reducer {
     const mixinsValues = _.mapValues(mixins, 'initialState');
     const mixinsActions = _.reduce(mixins, (result, mixin, mixinKey) => {
       const { actions: mixinActions } = mixin;
-      const updatedActionKeys = _.mapKeys(mixinActions, (action, actionKey) => _.camelCase(`${mixinKey}_${actionKey}`));
-      const updatedActions = _.mapValues(updatedActionKeys, action => actioner(action, mixinKey, false));
+      const updatedActions = _.mapValues(mixinActions, action => actioner(action, mixinKey, false));
       return {
         ...result,
-        ...updatedActions,
+        [mixinKey]: updatedActions,
       };
     }, {});
     const mixinsDispatches = _.reduce(mixins, (result, mixin, mixinKey) => {
       const { dispatches: mixinDispatches } = mixin;
-      const updatedDispatches = _.mapKeys(mixinDispatches, (action, actionKey) => _.camelCase(`${mixinKey}_${actionKey}`));
       return {
         ...result,
-        ...updatedDispatches,
+        [mixinKey]: mixinDispatches,
       };
     }, {});
     const mixinsSelectors = _.reduce(mixins, (result, mixin, mixinKey) => {
       const { selectors: mixinSelectors } = mixin;
-      const updatedSelectors = _.mapKeys(mixinSelectors, (action, actionKey) => _.camelCase(`${mixinKey}_${actionKey}`));
       return {
         ...result,
-        ...updatedSelectors,
+        [mixinKey]: mixinSelectors,
       };
     }, {});
     this.initialState = {
@@ -75,8 +77,12 @@ export default class Reducer {
       ...dispatches,
       ...mixinsDispatches,
     };
-    _.each(mixinsDispatches, (fn, key) => {
-      this[key] = _.partialRight(fn, key);
+    // TODO what if 3 inherit?
+    _.each(mixinsDispatches, (mixin, key) => {
+      this[key] = {};
+      _.each(mixin, (fn, mixinKey) => {
+        this[key][mixinKey] = _.partialRight(fn, `${this.constructor.name}.${key}.${mixinKey}`);
+      });
     });
     this.selectors = {
       ...selectors,
@@ -89,9 +95,10 @@ export default class Reducer {
   // TODO bind reducer in constructor
   // TODO i guess we should make it static
   reducer = (state = this.initialState, action) => {
+    console.log(action, 'action');
     // TODO refactor this
-    const clearActionType = _.camelCase(action.type.split(_.camelCase(this.constructor.name)).pop());
-    const callableAction = (this.actions || {})[clearActionType];
+    const clearActionType = action.type.split(`${this.constructor.name}.`).pop();
+    const callableAction = _.get(this.actions, clearActionType);
     // TODO investigate spacenaming issue
     // TODO investigate logic of using immer inside
     return callableAction ? callableAction(state, action) : state;

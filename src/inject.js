@@ -1,5 +1,32 @@
 import mapValues from 'lodash/mapValues';
 import mapKeys from 'lodash/mapKeys';
+import get from 'lodash/get';
+
+// TODO change name
+// TODO refactor
+const m1 = (selectors, state, statePath) => ({
+  ...get(state, statePath),
+  ...mapValues(
+    selectors,
+    (selector, selectorKey) => {
+      if (typeof selector === 'function') {
+        return selector(get(state, statePath), state);
+      }
+      const path = `${statePath}.${selectorKey}`;
+      return m1(selector, state, path);
+    },
+  ),
+});
+
+const mapActionToDispatch = (actions, store, dispatch, actionPrefix = '') => mapValues(
+  actions,
+  (action, actionKey) => {
+    if (typeof action === 'function') {
+      return () => get(store, `${actionPrefix}${actionPrefix ? '.' : ''}${actionKey}`)(dispatch);
+    }
+    return mapActionToDispatch(action, store, dispatch, actionKey);
+  },
+);
 
 // TODO think about rename this method
 // TODO think about need of this method at all
@@ -10,20 +37,14 @@ export default (stores) => {
   // TODO gather stmap and dsmap
   const stateMappers = state => mapValues(
     stores,
-    (store, key) => ({
-      ...state[key],
-      ...mapValues(
-        store.selectors,
-        selector => selector(state[key], state),
-      ),
-    }),
+    (store, storeKey) => {
+      const result = m1(store.selectors, state, storeKey);
+      return result;
+    },
   );
   const dispatchMappers = dispatch => mapValues(
     stores,
-    store => mapValues(
-      store.actions,
-      (action, key) => () => store[key](dispatch),
-    ),
+    store => mapActionToDispatch(store.actions, store, dispatch),
   );
   // TODO think about what should we do with ownProps
   const mapState = state => stateMappers(state);
