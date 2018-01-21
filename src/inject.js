@@ -21,10 +21,11 @@ const m1 = (selectors, state, statePath) => ({
 const mapActionToDispatch = (actions, store, dispatch, actionPrefix = '') => mapValues(
   actions,
   (action, actionKey) => {
+    const path = `${actionPrefix}${actionPrefix ? '.' : ''}${actionKey}`;
     if (typeof action === 'function') {
-      return () => get(store, `${actionPrefix}${actionPrefix ? '.' : ''}${actionKey}`)(dispatch);
+      return () => get(store, path)(dispatch);
     }
-    return mapActionToDispatch(action, store, dispatch, actionKey);
+    return mapActionToDispatch(action, store, dispatch, path);
   },
 );
 
@@ -37,10 +38,7 @@ export default (stores) => {
   // TODO gather stmap and dsmap
   const stateMappers = state => mapValues(
     stores,
-    (store, storeKey) => {
-      const result = m1(store.selectors, state, storeKey);
-      return result;
-    },
+    (store, storeKey) => m1(store.selectors, state, storeKey),
   );
   const dispatchMappers = dispatch => mapValues(
     stores,

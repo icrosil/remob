@@ -2,25 +2,49 @@
 
 import _ from 'lodash';
 
-import { actioner } from './action';
+import { actionable } from './action';
 
-// TODO make all static and use without new
 export default class Reducer {
-  getActionName(klass, methodName) {
-    return `${klass.constructor.name}.${methodName}`;
+  registerDispatches = (dispatches, path) => {
+    if (typeof dispatches === 'function') {
+      _.set(this, path, _.partialRight(dispatches, `${this.constructor.name}.${path}`));
+    } else {
+      _.set(this, path, {});
+      _.each(dispatches, (fn, fnKey) => {
+        this.registerDispatches(fn, `${path}.${fnKey}`);
+      });
+    }
+  }
+  // TODO probably prevPath is not good
+  registerActions = (actions, path, prevPath = '') => {
+    if (typeof actions === 'function') {
+      _.set(this.actions, path, actionable(actions, prevPath, false));
+    } else {
+      _.set(this.actions, path, {});
+      _.each(actions, (fn, fnKey) => {
+        this.registerActions(fn, `${path}.${fnKey}`, path);
+      });
+    }
+  }
+  registerMixin = (mixin, mixinKey) => {
+    const {
+      actions, dispatches, initialState, selectors,
+    } = mixin;
+    this.initialState[mixinKey] = initialState;
+    this.dispatches[mixinKey] = dispatches;
+    this.selectors[mixinKey] = selectors;
+    this.registerActions(actions, mixinKey);
+    this.registerDispatches(dispatches, mixinKey);
   }
   getInitialState() {
     return this.initialState || {};
   }
-  // TODO probably somehow refactor this to have consistent with state
   getActions() {
     return this.actions || {};
   }
-  // TODO probably somehow refactor this to have consistent with state
   getDispatches() {
     return this.dispatches || {};
   }
-  // TODO probably somehow refactor this to have consistent with state
   getSelectors() {
     return this.selectors || {};
   }
@@ -30,64 +54,15 @@ export default class Reducer {
   // TODO check do i need this state setter, would it be useful?
   // TODO do i need here to pass initialState?
   constructor() {
-    // TODO split this big loginc into parts
-    // TODO add to every action/dispatch -> name of current store to set uniq
-    const initialState = this.getInitialState();
-    const actions = this.getActions();
-    const dispatches = this.getDispatches();
-    const selectors = this.getSelectors();
-    // TODO find better way than getInitialState
-    // TODO better mixinLogic
-    // TODO fix namings
-    // TODO try to have actions as mixin/action not total camelCase
-    const mixins = _.pickBy(initialState, value => value instanceof Reducer);
-    const mixinsValues = _.mapValues(mixins, 'initialState');
-    const mixinsActions = _.reduce(mixins, (result, mixin, mixinKey) => {
-      const { actions: mixinActions } = mixin;
-      const updatedActions = _.mapValues(mixinActions, action => actioner(action, mixinKey, false));
-      return {
-        ...result,
-        [mixinKey]: updatedActions,
-      };
-    }, {});
-    const mixinsDispatches = _.reduce(mixins, (result, mixin, mixinKey) => {
-      const { dispatches: mixinDispatches } = mixin;
-      return {
-        ...result,
-        [mixinKey]: mixinDispatches,
-      };
-    }, {});
-    const mixinsSelectors = _.reduce(mixins, (result, mixin, mixinKey) => {
-      const { selectors: mixinSelectors } = mixin;
-      return {
-        ...result,
-        [mixinKey]: mixinSelectors,
-      };
-    }, {});
-    this.initialState = {
-      ...initialState,
-      ...mixinsValues,
-    };
-    this.actions = {
-      ...actions,
-      ...mixinsActions,
-    };
-    // TODO map actions to current state
-    this.dispatches = {
-      ...dispatches,
-      ...mixinsDispatches,
-    };
-    // TODO what if 3 inherit?
-    _.each(mixinsDispatches, (mixin, key) => {
-      this[key] = {};
-      _.each(mixin, (fn, mixinKey) => {
-        this[key][mixinKey] = _.partialRight(fn, `${this.constructor.name}.${key}.${mixinKey}`);
-      });
+    this.actions = this.getActions();
+    this.dispatches = this.getDispatches();
+    this.initialState = this.getInitialState();
+    this.selectors = this.getSelectors();
+    _.each(this.initialState, (value, key) => {
+      if (value instanceof Reducer) {
+        this.registerMixin(value, key);
+      }
     });
-    this.selectors = {
-      ...selectors,
-      ...mixinsSelectors,
-    };
   }
   // TODO implementation
   // check every action in this instance and change state
@@ -97,6 +72,7 @@ export default class Reducer {
   reducer = (state = this.initialState, action) => {
     console.log(action, 'action');
     // TODO refactor this
+    // TODO all name management move somewhereto method
     const clearActionType = action.type.split(`${this.constructor.name}.`).pop();
     const callableAction = _.get(this.actions, clearActionType);
     // TODO investigate spacenaming issue

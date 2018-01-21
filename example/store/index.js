@@ -5,10 +5,12 @@ import { combineRemob } from '../../src';
 
 import * as simple from './simple';
 import * as inherit from './inherit';
+import * as hard from './hard';
 
 const stores = {
   simple,
   inherit,
+  hard,
 };
 
 const redux = mapValues(stores, 'redux');
