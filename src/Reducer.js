@@ -5,6 +5,10 @@ import _ from 'lodash';
 import { actionable } from './action';
 
 export default class Reducer {
+  registerSelector(fn, method) {
+    this.selectors = this.getSelectors();
+    this.selectors[method] = fn;
+  }
   registerDispatches = (dispatches, path) => {
     if (typeof dispatches === 'function') {
       _.set(this, path, _.partialRight(dispatches, `${this.constructor.name}.${path}`));
