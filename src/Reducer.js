@@ -72,7 +72,6 @@ export default class Reducer {
     });
   }
   getClearActionType(action) {
-    console.log(action, 'action');
     return action.type.split(`${this.constructor.name}.`).pop();
   }
   static getActionName(path, fnKey) {
@@ -84,7 +83,7 @@ export default class Reducer {
   getDispatchName(path) {
     return `${this.constructor.name}.${path}`;
   }
-  reducer = (state = this.initialState, action, ...other) => {
+  reducer = (state = this.initialState, action) => {
     const clearActionType = this.getClearActionType(action);
     const callableAction = _.get(this.actions, clearActionType);
     return callableAction ? callableAction(state, action) : state;
