@@ -11,41 +11,35 @@ import { inject } from '../../src';
 
 const RemobComponent = ({
   simple,
-  simpleAction,
   inherit,
-  inheritAction,
   hard,
-  hardAction,
 }) => (
   <div>
     <Simple
       value={simple.field}
-      onClick={simpleAction.randomize}
-      onClickThunk={simpleAction.thunkRandomize}
+      onClick={simple.randomize}
+      onClickThunk={simple.thunkRandomize}
       formattedValue={simple.formatValue}
     />
     <Inherit
       valueOne={inherit.fieldOne.field}
       valueTwo={inherit.fieldTwo.field}
-      onClickOne={inheritAction.fieldOne.randomize}
-      onClickTwo={inheritAction.fieldTwo.randomize}
+      onClickOne={inherit.fieldOne.randomize}
+      onClickTwo={inherit.fieldTwo.randomize}
     />
     <Inherit
       valueOne={hard.inherit.fieldOne.field}
       valueTwo={hard.inherit.fieldTwo.field}
-      onClickOne={hardAction.inherit.fieldOne.randomize}
-      onClickTwo={hardAction.inherit.fieldTwo.randomize}
+      onClickOne={hard.inherit.fieldOne.randomize}
+      onClickTwo={hard.inherit.fieldTwo.randomize}
     />
   </div>
 );
 
 RemobComponent.propTypes = {
   simple: PropTypes.shape({}).isRequired,
-  simpleAction: PropTypes.shape({}).isRequired,
   inherit: PropTypes.shape({}).isRequired,
-  inheritAction: PropTypes.shape({}).isRequired,
   hard: PropTypes.shape({}).isRequired,
-  hardAction: PropTypes.shape({}).isRequired,
 };
 
 export default connect(...inject({

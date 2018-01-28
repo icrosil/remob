@@ -1,53 +1,44 @@
-import mapValues from 'lodash/mapValues';
-import mapKeys from 'lodash/mapKeys';
-import get from 'lodash/get';
+import _ from 'lodash';
 
-// TODO change name
-// TODO refactor
-const m1 = (selectors, state, statePath) => ({
-  ...get(state, statePath),
-  ...mapValues(
+import Reducer from './Reducer';
+
+const mapSelectorsToDispatch = (selectors, state, statePath, opts) => ({
+  ..._.get(state, statePath),
+  ..._.mapValues(
     selectors,
     (selector, selectorKey) => {
       if (typeof selector === 'function') {
-        return selector(get(state, statePath), state);
+        return selector(_.get(state, statePath), state, opts);
       }
-      const path = `${statePath}.${selectorKey}`;
-      return m1(selector, state, path);
+      const path = Reducer.getActionName(statePath, selectorKey);
+      return mapSelectorsToDispatch(selector, state, path, opts);
     },
   ),
 });
 
-const mapActionToDispatch = (actions, store, dispatch, actionPrefix = '') => mapValues(
+const mapActionToDispatch = (actions, store, dispatch, opts, actionPrefix = '') => _.mapValues(
   actions,
   (action, actionKey) => {
-    const path = `${actionPrefix}${actionPrefix ? '.' : ''}${actionKey}`;
+    const path = Reducer.getActionDispatchName(actionPrefix, actionKey);
     if (typeof action === 'function') {
-      return () => get(store, path)(dispatch);
+      return value => _.get(store, path)(dispatch, value, opts);
     }
-    return mapActionToDispatch(action, store, dispatch, path);
+    return mapActionToDispatch(action, store, dispatch, opts, path);
   },
 );
 
-// TODO think about rename this method
-// TODO think about need of this method at all
-// TODO think about how to use inject ->
-// - over class of component and pass props to render/willupdate/shouldupdate etc
-// - over connect just to reinject props (this option implemented now)
+const mergeProps = (stateProps, dispatchProps, ownProps) => _.merge({}, stateProps, dispatchProps, ownProps);
+
 export default (stores) => {
-  // TODO gather stmap and dsmap
-  const stateMappers = state => mapValues(
+  const stateMappers = (state, opts) => _.mapValues(
     stores,
-    (store, storeKey) => m1(store.selectors, state, storeKey),
+    (store, storeKey) => mapSelectorsToDispatch(store.selectors, state, storeKey, opts),
   );
-  const dispatchMappers = dispatch => mapValues(
+  const dispatchMappers = (dispatch, opts) => _.mapValues(
     stores,
-    store => mapActionToDispatch(store.actions, store, dispatch),
+    store => mapActionToDispatch(store.actions, store, dispatch, opts),
   );
-  // TODO think about what should we do with ownProps
-  const mapState = state => stateMappers(state);
-  // TODO thinkout how to avoid this changing keys
-  const mapDispatch = dispatch => mapKeys(dispatchMappers(dispatch), (store, key) => `${key}Action`);
-  // TODO check if mapState and mapDispatch gathering or should have different names
-  return [mapState, mapDispatch];
+  const mapState = (state, ...args) => stateMappers(state, args);
+  const mapDispatch = (dispatch, ...args) => dispatchMappers(dispatch, args);
+  return [mapState, mapDispatch, mergeProps];
 };

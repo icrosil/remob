@@ -13,7 +13,7 @@ export default class Reducer {
     } else {
       _.set(this, path, {});
       _.each(dispatches, (fn, fnKey) => {
-        this.registerDispatches(fn, this.getActionName(path, fnKey));
+        this.registerDispatches(fn, Reducer.getActionName(path, fnKey));
       });
     }
   }
@@ -23,7 +23,7 @@ export default class Reducer {
     } else {
       _.set(this.actions, path, {});
       _.each(actions, (fn, fnKey) => {
-        this.registerActions(fn, this.getActionName(path, fnKey), path);
+        this.registerActions(fn, Reducer.getActionName(path, fnKey), path);
       });
     }
   }
@@ -63,8 +63,11 @@ export default class Reducer {
   getClearActionType(action) {
     return action.type.split(`${this.constructor.name}.`).pop();
   }
-  getActionName(path, fnKey) {
+  static getActionName(path, fnKey) {
     return `${path}.${fnKey}`;
+  }
+  static getActionDispatchName(path, fnKey) {
+    return `${path}${path ? '.' : ''}${fnKey}`;
   }
   getDispatchName(path) {
     return `${this.constructor.name}.${path}`;
