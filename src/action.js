@@ -1,6 +1,7 @@
 import { validate } from './util/decorator';
 
-const defaultDispatchable = method => (dispatch, type = method, options = {}) => dispatch({ ...options, type });
+const defaultDispatchable = method => (dispatch, options = {}, type = method) => dispatch({ ...options, type });
+
 export const actionable = (func, path, isFullStatePassed = true) => {
   if (typeof path === 'string') {
     return (state, action) => {

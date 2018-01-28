@@ -13,7 +13,7 @@ const stores = {
   hard,
 };
 
-const redux = mapValues(stores, 'redux');
+const redux = mapValues(stores, store => (store.redux || (() => ({}))));
 const mobx = mapValues(stores, 'mobx');
 const remob = mapValues(stores, 'remob');
 
