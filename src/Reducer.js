@@ -3,6 +3,17 @@ import _ from 'lodash';
 import { actionable } from './action';
 
 export default class Reducer {
+  registerAction(fn, method) {
+    this.actions = this.getActions();
+    this.actions[method] = fn;
+  }
+  registerDispatch(fn, method, dispatchable) {
+    const propertyName = this.getDispatchName(method);
+    const property = dispatchable(propertyName, fn);
+    this.dispatches = this.getDispatches();
+    this.dispatches[method] = property;
+    return property;
+  }
   registerSelector(fn, method) {
     this.selectors = this.getSelectors();
     this.selectors[method] = fn;

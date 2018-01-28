@@ -13,5 +13,4 @@ class SimpleReducer extends Reducer {
   }
 }
 
-// TODO do i need initiazation?
 export default new SimpleReducer();

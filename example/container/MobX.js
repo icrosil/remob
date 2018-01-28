@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 
 import Simple from '../component/Simple';
-import Inherit from '../component/Inherit';
 
 @observer
 class MobXComponent extends Component {
   render() {
-    const { simple, inherit } = this.props;
+    const { simple } = this.props;
     return (
       <div>
         <Simple
@@ -17,12 +16,6 @@ class MobXComponent extends Component {
           onClickThunk={simple.thunkRandomize}
           formattedValue={simple.formatValue}
         />
-        <Inherit
-          valueOne={inherit.fieldOne}
-          valueTwo={inherit.fieldTwo}
-          onClickOne={inherit.randomizeOne}
-          onClickTwo={inherit.randomizeTwo}
-        />
       </div>
     );
   }
@@ -30,7 +23,6 @@ class MobXComponent extends Component {
 
 MobXComponent.propTypes = {
   simple: PropTypes.shape({}).isRequired,
-  inherit: PropTypes.shape({}).isRequired,
 };
 
-export default inject('simple', 'inherit')(MobXComponent);
+export default inject('simple')(MobXComponent);

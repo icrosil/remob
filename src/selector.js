@@ -1,9 +1,9 @@
 import { validate } from './util/decorator';
 
-export default (AppliedClass, method, _ref) => {
+export default (klass, method, _ref) => {
   const { value: fn, configurable, enumerable } = _ref;
-  validate(fn, method, 'selector');
-  AppliedClass.registerSelector(fn, method);
+  validate(klass, fn, method, 'selector');
+  klass.registerSelector(fn, method);
   return {
     configurable,
     enumerable,
