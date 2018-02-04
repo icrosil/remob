@@ -1,6 +1,9 @@
+/* eslint-disable import/no-extraneous-dependencies */
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
+import DevTools from 'mobx-react-devtools';
 
 import Simple from '../component/Simple';
 
@@ -16,6 +19,7 @@ class MobXComponent extends Component {
           onClickThunk={simple.thunkRandomize}
           formattedValue={simple.formatValue}
         />
+        <DevTools />
       </div>
     );
   }
