@@ -1,6 +1,8 @@
 # remob
 Rethinking of Redux and MobX
 
+[![Version](https://img.shields.io/npm/v/remob.svg)](https://www.npmjs.com/package/remob) [![dependencies Status](https://david-dm.org/icrosil/remob/status.svg)](https://david-dm.org/icrosil/remob)
+
 ## what is remob?
 remob - is an experiment to combine simple state management from Redux and effective sides of MobX.
 
