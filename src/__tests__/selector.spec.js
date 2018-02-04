@@ -27,7 +27,7 @@ describe('selector', () => {
     try {
       selector(Reducer, 'method', ref);
     } catch (e) {
-      expect(validate).toHaveBeenCalledWith(Reducer, ref.value, 'method', 'action');
+      expect(validate).toHaveBeenCalledWith(Reducer, ref.value, 'method', 'selector');
     }
   });
 

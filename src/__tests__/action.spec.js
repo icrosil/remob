@@ -11,7 +11,7 @@ jest.mock('../util/decorator', () => ({
 
 jest.mock('../Reducer', () => class ClassName {
   ['registerAction'] = jest.fn();
-  ['registerDispatch'] = jest.fn();
+  ['registerDispatch'] = jest.fn(() => () => {});
 });
 
 describe('action', () => {
@@ -42,11 +42,11 @@ describe('action', () => {
         expect(func).toHaveBeenCalledWith(state, actionObject);
         expect(nextState).toEqual({ safe: true, field: 2 });
       });
-      test('should result nextstate function with path and fillstate', () => {
+      test('should result nextstate function with fullstate', () => {
         const func = jest.fn(v => v);
         const nextState = actionable(func, path, false)(state, actionObject);
-        expect(func).toHaveBeenCalledWith(state, actionObject);
-        expect(nextState).toEqual({ field: { field: 1, safe: true }, safe: true });
+        expect(func).toHaveBeenCalledWith(1, actionObject);
+        expect(nextState).toEqual({ field: 1, safe: true });
       });
     });
   });
