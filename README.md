@@ -1,7 +1,7 @@
 # remob
 Rethinking of Redux and MobX
 
-[![Build Status](https://travis-ci.org/icrosil/remob.svg?branch=master)](https://travis-ci.org/icrosil/remob)  [![Coverage Status](https://coveralls.io/repos/github/icrosil/remob/badge.svg?branch=master)](https://coveralls.io/github/icrosil/remob?branch=master)  [![Version](https://img.shields.io/npm/v/remob.svg)](https://www.npmjs.com/package/remob) [![dependencies Status](https://david-dm.org/icrosil/remob/status.svg)](https://david-dm.org/icrosil/remob)
+[![Build Status](https://travis-ci.org/icrosil/remob.svg?branch=master)](https://travis-ci.org/icrosil/remob)  [![Coverage Status](https://coveralls.io/repos/github/icrosil/remob/badge.svg?branch=master)](https://coveralls.io/github/icrosil/remob?branch=master)  [![Maintainability](https://api.codeclimate.com/v1/badges/6fe830dc12447fa3922b/maintainability)](https://codeclimate.com/github/icrosil/remob/maintainability)  [![Version](https://img.shields.io/npm/v/remob.svg)](https://www.npmjs.com/package/remob) [![dependencies Status](https://david-dm.org/icrosil/remob/status.svg)](https://david-dm.org/icrosil/remob)
 
 ## what is remob?
 remob - is an experiment to combine simple state management from Redux and effective sides of MobX.
