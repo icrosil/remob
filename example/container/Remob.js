@@ -24,7 +24,7 @@ const RemobComponent = ({
     <Inherit
       valueOne={inherit.fieldOne.field}
       valueTwo={inherit.fieldTwo.field}
-      onClickOne={inherit.fieldOne.randomize}
+      onClickOne={() => inherit.randomizePlusValue(1)}
       onClickTwo={inherit.fieldTwo.randomize}
     />
     <Inherit
