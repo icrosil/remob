@@ -2,6 +2,13 @@ import _ from 'lodash';
 
 import { actionable } from './action';
 
+/**
+ * Reducer class to create reducers,
+ * has method to register actions/dispatches/selectors.
+ * works with namings and mixins.
+ * contains reducer implementation which resolves registered actions.
+ * @type {Reducer}
+ */
 export default class Reducer {
   registerAction(fn, method) {
     this.actions = this.getActions();

@@ -29,6 +29,12 @@ const mapActionToDispatch = (actions, store, dispatch, opts, actionPrefix = '') 
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => _.merge({}, stateProps, dispatchProps, ownProps);
 
+/**
+ * injector to combine actions, state, selectors and pass it to component as props
+ * @method
+ * @param  {Object} stores remob instances
+ * @return {Array}         mappers and merge function
+ */
 export default (stores) => {
   const stateMappers = (state, opts) => _.mapValues(
     stores,
