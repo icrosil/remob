@@ -1,20 +1,7 @@
 import { validate } from './util/decorator';
+import actionable from './util/actionable';
 
 const defaultDispatchable = method => (dispatch, options = {}, type = method) => dispatch({ ...options, type });
-
-export const actionable = (func, path, isFullStatePassed = true) => {
-  if (typeof path === 'string') {
-    return (state, action) => {
-      const updatedState = { ...state };
-      const partPath = path.split('.').shift();
-      return {
-        ...state,
-        [partPath]: func(isFullStatePassed ? updatedState : state[partPath], action),
-      };
-    };
-  }
-  return (state, action) => func(state, action);
-};
 
 /**
  * action decorator

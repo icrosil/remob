@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { actionable } from './action';
+import actionable from './util/actionable';
 
 /**
  * Reducer class to create reducers,
