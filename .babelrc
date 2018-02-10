@@ -7,8 +7,7 @@
         "stage-1"
       ],
       "plugins": [
-        "transform-decorators-legacy",
-        "external-helpers"
+        "transform-decorators-legacy"
       ]
     },
     "test": {
@@ -18,18 +17,15 @@
         "stage-1"
       ],
       "plugins": [
-        "transform-decorators-legacy",
-        "external-helpers"
+        "transform-decorators-legacy"
       ]
     },
     "production": {
       "presets": [
-        "es2015",
+        "es2015-rollup",
         "stage-1"
       ],
-      "plugins": [
-        "external-helpers"
-      ]
+      "plugins": ["external-helpers"]
     }
   }
 
