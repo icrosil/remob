@@ -1,4 +1,7 @@
-import _ from 'lodash';
+import get from 'lodash/get';
+import set from 'lodash/set';
+import each from 'lodash/each';
+import partialRight from 'lodash/partialRight';
 
 import actionable from './util/actionable';
 
@@ -27,20 +30,20 @@ export default class Reducer {
   }
   registerDispatches(dispatches, path) {
     if (typeof dispatches === 'function') {
-      _.set(this, path, _.partialRight(dispatches, this.getDispatchName(path)));
+      set(this, path, partialRight(dispatches, this.getDispatchName(path)));
     } else {
-      _.set(this, path, {});
-      _.each(dispatches, (fn, fnKey) => {
+      set(this, path, {});
+      each(dispatches, (fn, fnKey) => {
         this.registerDispatches(fn, Reducer.getActionName(path, fnKey));
       });
     }
   }
   registerActions(actions, path, prevPath = '') {
     if (typeof actions === 'function') {
-      _.set(this.actions, path, actionable(actions, prevPath, false));
+      set(this.actions, path, actionable(actions, prevPath, false));
     } else {
-      _.set(this.actions, path, {});
-      _.each(actions, (fn, fnKey) => {
+      set(this.actions, path, {});
+      each(actions, (fn, fnKey) => {
         this.registerActions(fn, Reducer.getActionName(path, fnKey), path);
       });
     }
@@ -76,7 +79,7 @@ export default class Reducer {
     this.dispatches = this.getDispatches();
     this.initialState = this.getInitialState(initialState);
     this.selectors = this.getSelectors();
-    _.each(this.initialState, (value, key) => {
+    each(this.initialState, (value, key) => {
       if (value instanceof Reducer) {
         this.registerMixin(value, key);
       }
@@ -96,7 +99,7 @@ export default class Reducer {
   }
   reducer(state = this.initialState, action) {
     const clearActionType = this.getClearActionType(action);
-    const callableAction = _.get(this.actions, clearActionType);
+    const callableAction = get(this.actions, clearActionType);
     return callableAction ? callableAction(state, action) : state;
   }
 }

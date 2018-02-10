@@ -1,14 +1,16 @@
-import _ from 'lodash';
+import get from 'lodash/get';
+import mapValues from 'lodash/mapValues';
+import merge from 'lodash/merge';
 
 import Reducer from './Reducer';
 
 const mapSelectorsToDispatch = (selectors, state, statePath, opts) => ({
-  ..._.get(state, statePath),
-  ..._.mapValues(
+  ...get(state, statePath),
+  ...mapValues(
     selectors,
     (selector, selectorKey) => {
       if (typeof selector === 'function') {
-        return selector(_.get(state, statePath), state, opts);
+        return selector(get(state, statePath), state, opts);
       }
       const path = Reducer.getActionName(statePath, selectorKey);
       return mapSelectorsToDispatch(selector, state, path, opts);
@@ -16,18 +18,18 @@ const mapSelectorsToDispatch = (selectors, state, statePath, opts) => ({
   ),
 });
 
-const mapActionToDispatch = (actions, store, dispatch, opts, actionPrefix = '') => _.mapValues(
+const mapActionToDispatch = (actions, store, dispatch, opts, actionPrefix = '') => mapValues(
   actions,
   (action, actionKey) => {
     const path = Reducer.getActionDispatchName(actionPrefix, actionKey);
     if (typeof action === 'function') {
-      return value => _.get(store, path)(dispatch, { opts, value });
+      return value => get(store, path)(dispatch, { opts, value });
     }
     return mapActionToDispatch(action, store, dispatch, opts, path);
   },
 );
 
-const mergeProps = (stateProps, dispatchProps, ownProps) => _.merge({}, stateProps, dispatchProps, ownProps);
+const mergeProps = (stateProps, dispatchProps, ownProps) => merge({}, stateProps, dispatchProps, ownProps);
 
 /**
  * injector to combine actions, state, selectors and pass it to component as props
@@ -36,11 +38,11 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => _.merge({}, statePro
  * @return {Array}         mappers and merge function
  */
 export default (stores) => {
-  const stateMappers = (state, opts) => _.mapValues(
+  const stateMappers = (state, opts) => mapValues(
     stores,
     (store, storeKey) => mapSelectorsToDispatch(store.selectors, state, storeKey, opts),
   );
-  const dispatchMappers = (dispatch, opts) => _.mapValues(
+  const dispatchMappers = (dispatch, opts) => mapValues(
     stores,
     store => mapActionToDispatch(store.actions, store, dispatch, opts),
   );
