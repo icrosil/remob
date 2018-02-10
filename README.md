@@ -37,6 +37,7 @@ Enjoy to use it =)
 - `import remob from 'remob';`
 
 ## influence
+- [redux](https://redux.js.org/)
 - [redux-knife-manager](https://github.com/madetheforcebewithyou/redux-knife-manager)
 - [MobX](https://github.com/mobxjs/mobx)
 - [react-easy-state](https://github.com/solkimicreb/react-easy-state)
