@@ -25,7 +25,7 @@ export default class Reducer {
     this.selectors = this.getSelectors();
     this.selectors[method] = fn;
   }
-  registerDispatches = (dispatches, path) => {
+  registerDispatches(dispatches, path) {
     if (typeof dispatches === 'function') {
       _.set(this, path, _.partialRight(dispatches, this.getDispatchName(path)));
     } else {
@@ -35,7 +35,7 @@ export default class Reducer {
       });
     }
   }
-  registerActions = (actions, path, prevPath = '') => {
+  registerActions(actions, path, prevPath = '') {
     if (typeof actions === 'function') {
       _.set(this.actions, path, actionable(actions, prevPath, false));
     } else {
@@ -45,7 +45,7 @@ export default class Reducer {
       });
     }
   }
-  registerMixin = (mixin, mixinKey) => {
+  registerMixin(mixin, mixinKey) {
     const {
       actions, dispatches, initialState, selectors,
     } = mixin;
@@ -68,6 +68,10 @@ export default class Reducer {
     return this.selectors || {};
   }
   constructor(initialState) {
+    this.registerDispatches = this.registerDispatches.bind(this);
+    this.registerActions = this.registerActions.bind(this);
+    this.registerMixin = this.registerMixin.bind(this);
+    this.reducer = this.reducer.bind(this);
     this.actions = this.getActions();
     this.dispatches = this.getDispatches();
     this.initialState = this.getInitialState(initialState);
@@ -90,9 +94,9 @@ export default class Reducer {
   getDispatchName(path) {
     return `${this.constructor.name}.${path}`;
   }
-  reducer = (state = this.initialState, action) => {
+  reducer(state = this.initialState, action) {
     const clearActionType = this.getClearActionType(action);
     const callableAction = _.get(this.actions, clearActionType);
     return callableAction ? callableAction(state, action) : state;
-  };
+  }
 }

@@ -32,6 +32,10 @@ Observables as pattern are good, but predictability and unidirectional flow wort
 So basically this is the wrapper upon Redux with decorator usage.
 Enjoy to use it =)
 
+## Instalation
+- `yarn add remob`
+- `import remob from 'remob';`
+
 ## influence
 - [redux-knife-manager](https://github.com/madetheforcebewithyou/redux-knife-manager)
 - [MobX](https://github.com/mobxjs/mobx)
