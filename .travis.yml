@@ -13,6 +13,8 @@ cache:
 script:
   - yarn lint
   - yarn test
+  - yarn build
+  - yarn size
 
 after_success:
   - yarn coveralls

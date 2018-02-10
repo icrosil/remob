@@ -20,7 +20,8 @@
     "lint": "eslint ./src ./example",
     "test": "NODE_ENV=test jest ./",
     "coveralls": "coveralls < coverage/lcov.info",
-    "build": "NODE_ENV=production rollup -c -o dist/remob.js"
+    "build": "NODE_ENV=production rollup -c -o dist/remob.js",
+    "size": "size-limit"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
