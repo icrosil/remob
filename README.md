@@ -32,9 +32,116 @@ Observables as pattern are good, but predictability and unidirectional flow wort
 So basically this is the wrapper upon Redux with decorator usage.
 Enjoy to use it =)
 
-## Instalation
+## Installation
 - `yarn add remob`
 - `import remob from 'remob';`
+
+## API
+Remob has 6 exports from index file, they are:
+- Reducer
+- action
+- selector
+- thunk
+- inject
+- combineRemob
+
+#### Reducer
+Is a main class to start with. When you want to create new remob you should import `Reducer` and extend remob from `Reducer` or another remob. Inside of `Reducer` live only registrators and reducer implementation.
+```
+import { Reducer } from remob;
+
+class Counter extends Reducer {
+  initialState = { field: 0 };
+}
+
+export default new Counter();
+```
+
+#### action
+Is a decorator to use within Reducer. You have to use it like function `@action()`.
+Using this on some function in remob will produce next actions:
+- registrate action to remob and reducer
+- make this function to be dispatchable
+
+implementation of actionable functions should be like reducer that will be fired only on this action. It takes 2 params as arguments state and action.
+
+action could be an implementation for part of state, for this case you have to pass property name to first param - `@action('field')`
+
+```
+import { Reducer, action } from remob;
+
+class Counter extends Reducer {
+  initialState = { field: 0 };
+  @action() increment(state) {
+    return {
+      ...state,
+      field: state.field + 1,
+    }
+  }
+  @action('field') incrementField(state) {
+    return state.field + 1;
+  }
+  // both actions will work just equal.
+}
+
+export default new Counter();
+```
+
+#### selector
+Is a decorator to write selectors from state to components.
+```
+import { Reducer, selector } from remob;
+
+class Counter extends Reducer {
+  initialState = { field: 0 };
+  @selector incremented(state) {
+    return state.field + 1;
+  }
+}
+
+export default new Counter();
+```
+
+#### thunk
+Is a decorator very similar to action but with one change - it has different dispatchable method and it will call function implementation as argument to dispatch. Usable to create side effects within thunk middleware.
+```
+import { Reducer, thunk } from remob;
+
+class Counter extends Reducer {
+  initialState = { field: 0 };
+  @thunk decrement(dispatch, getState) {
+    ...
+  }
+}
+
+export default new Counter();
+```
+#### inject
+Is a function to inject remobs into component using connect. It takes object of remobs you want to pass, get every action/selector/thunk/state and mapps dispatch and state and them merges to 1 object.
+
+Keys of argument should equal to how you created stores of them and value should be a remob.
+```
+import { connect } from 'react-redux'
+import { inject } from remob;
+
+import Component from './Component'
+import remobImplementation from '../store/remob'
+
+export default connect(...inject({
+  remob: remobImplementation,
+}))(Component)
+```
+#### combineRemob
+Is a function to combine remobs for store creating, it takes reducer implementation of every remob passed.
+
+```
+import { combineRemob } from 'remob'
+import { createStore } from 'redux'
+
+import stores from '../stores'
+
+createStore(combineRemob(stores))
+```
 
 ## influence
 - [redux](https://redux.js.org/)
