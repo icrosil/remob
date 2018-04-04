@@ -21,17 +21,40 @@ describe('actionable', () => {
     const state = { field: 1, safe: true };
     const path = 'field';
     const actionObject = { type: 'some' };
+
     test('should result nextstate function', () => {
       const func = jest.fn(() => 2);
       const nextState = actionable(func, path)(state, actionObject);
       expect(func).toHaveBeenCalledWith(state, actionObject);
       expect(nextState).toEqual({ safe: true, field: 2 });
     });
+
     test('should result nextstate function with fullstate', () => {
       const func = jest.fn(v => v);
       const nextState = actionable(func, path, false)(state, actionObject);
       expect(func).toHaveBeenCalledWith(1, actionObject);
       expect(nextState).toEqual({ field: 1, safe: true });
+    });
+  });
+
+  describe('with deep path', () => {
+    const state = {
+      field: {
+        some: false,
+      },
+    };
+    const path = 'field.some';
+    const actionObject = true;
+
+    test('should result nextstate with deep path', () => {
+      const func = jest.fn((s, action) => action);
+      const nextState = actionable(func, path, false)(state, actionObject);
+      expect(func).toHaveBeenCalledWith(false, actionObject);
+      expect(nextState).toEqual({
+        field: {
+          some: true,
+        },
+      });
     });
   });
 });

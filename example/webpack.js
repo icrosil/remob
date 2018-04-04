@@ -19,6 +19,7 @@ module.exports = {
       },
     ],
   },
+  mode: 'development',
   plugins: [
     new webpack.ProgressPlugin(),
     new HtmlWebpackPlugin({

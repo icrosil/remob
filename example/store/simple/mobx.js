@@ -4,10 +4,10 @@ import { observable, action, computed } from 'mobx';
 @autobind
 class RandomizeStore {
   @observable field = 0;
-  @action randomize() {
+  @action randomize = () => {
     this.field = Math.random();
   }
-  @action thunkRandomize(anotherStore) {
+  @action thunkRandomize = (anotherStore) => {
     this.randomize(anotherStore);
   }
   @computed get formatValue() {
