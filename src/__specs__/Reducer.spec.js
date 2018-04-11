@@ -5,9 +5,15 @@ describe('Reducer', () => {
     class RealReducer extends Reducer {
       initialState = {
         field: 1,
+        deep: {
+          field: 42,
+        }
       }
       @action('field') setTwo() {
         return 2;
+      }
+      @action('deep.field') setDeepThree() {
+        return 3;
       }
       @selector getOne() {
         return 11;
@@ -79,6 +85,17 @@ describe('Reducer', () => {
       expect(instance.actions.method.actionable).toEqual(expect.any(Function));
       instance.actions.method.actionable({});
       expect(actionable).toHaveBeenCalled();
+    });
+    test('should set up new action with prevPath', () => {
+      const spy = jest.fn();
+      instance.registerActions({
+        deep: {
+          actionable: spy,
+        }
+      }, 'method');
+      expect(instance.actions.method.deep.actionable).toEqual(expect.any(Function));
+      instance.actions.method.deep.actionable({ method: 0 }, 'deep.actionable.method');
+      expect(spy).toHaveBeenCalledWith(0, 'deep.actionable.method');
     });
   });
   describe('registerMixin', () => {

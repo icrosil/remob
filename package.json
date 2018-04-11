@@ -18,7 +18,7 @@
   "scripts": {
     "dev": "NODE_ENV=development webpack-dev-server --config ./example/webpack.js",
     "lint": "eslint ./src ./example",
-    "test": "NODE_ENV=test jest ./",
+    "test": "jest ./",
     "coveralls": "coveralls < coverage/lcov.info",
     "build": "NODE_ENV=production rollup -c -o dist/remob.js",
     "size": "size-limit"
