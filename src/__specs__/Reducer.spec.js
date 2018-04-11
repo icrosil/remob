@@ -7,7 +7,7 @@ describe('Reducer', () => {
         field: 1,
         deep: {
           field: 42,
-        }
+        },
       }
       @action('field') setTwo() {
         return 2;
@@ -91,7 +91,7 @@ describe('Reducer', () => {
       instance.registerActions({
         deep: {
           actionable: spy,
-        }
+        },
       }, 'method');
       expect(instance.actions.method.deep.actionable).toEqual(expect.any(Function));
       instance.actions.method.deep.actionable({ method: 0 }, 'deep.actionable.method');
