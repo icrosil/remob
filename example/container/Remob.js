@@ -17,21 +17,27 @@ const RemobComponent = ({
   <div>
     <Simple
       value={simple.field}
+      valueDeep={simple.deep}
       onClick={simple.randomize}
       onClickThunk={simple.thunkRandomize}
       formattedValue={simple.formatValue}
+      onClickDeep={simple.randomizeDeep}
     />
     <Inherit
       valueOne={inherit.fieldOne.field}
       valueTwo={inherit.fieldTwo.field}
+      valueThree={inherit.fieldOne.deep.field}
       onClickOne={() => inherit.randomizePlusValue(1)}
       onClickTwo={inherit.fieldTwo.randomize}
+      onClickThree={inherit.fieldOne.randomizeDeep}
     />
     <Inherit
       valueOne={hard.inherit.fieldOne.field}
       valueTwo={hard.inherit.fieldTwo.field}
+      valueThree={hard.inherit.fieldOne.deep.field}
       onClickOne={hard.inherit.fieldOne.randomize}
       onClickTwo={hard.inherit.fieldTwo.randomize}
+      onClickThree={hard.inherit.fieldOne.randomizeDeep}
     />
   </div>
 );

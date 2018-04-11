@@ -1,8 +1,16 @@
 import { Reducer, action, selector, thunk } from '../../../src/';
 
 class SimpleReducer extends Reducer {
-  initialState = { field: 0 };
+  initialState = {
+    field: 0,
+    deep: {
+      field: 42,
+    },
+  };
   @action('field') randomize() {
+    return Math.random();
+  }
+  @action('deep.field') randomizeDeep() {
     return Math.random();
   }
   @thunk thunkRandomize(dispatch) {

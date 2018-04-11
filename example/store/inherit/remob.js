@@ -2,8 +2,9 @@ import { Reducer, action } from '../../../src/';
 import simple from '../simple/remob';
 
 class InheritRandomizer extends Reducer {
-  @action('fieldOne') randomizePlusValue(state, { value }) {
+  @action('fieldOne', false) randomizePlusValue(state, { value }) {
     return {
+      ...state,
       field: value + Math.random(),
     };
   }

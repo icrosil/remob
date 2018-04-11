@@ -44,7 +44,7 @@ export default class Reducer {
     } else {
       set(this.actions, path, {});
       each(actions, (fn, fnKey) => {
-        this.registerActions(fn, Reducer.getActionName(path, fnKey), path);
+        this.registerActions(fn, Reducer.getActionName(path, fnKey), prevPath || path);
       });
     }
   }

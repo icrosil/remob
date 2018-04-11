@@ -12,6 +12,7 @@ const ReduxComponent = ({
 }) => (
   <div>
     <Simple
+      valueDeep={{}}
       value={simple.field}
       formattedValue={formatValue(simple.field)}
       onClick={onClick}

@@ -14,6 +14,7 @@ class MobXComponent extends Component {
     return (
       <div>
         <Simple
+          valueDeep={{}}
           value={simple.field}
           onClick={simple.randomize}
           onClickThunk={simple.thunkRandomize}
