@@ -71,7 +71,12 @@ action could be an implementation for part of state, for this case you have to p
 import { Reducer, action } from remob;
 
 class Counter extends Reducer {
-  initialState = { field: 0 };
+  initialState = {
+    field: 0,
+    deep: {
+      field: 42,
+    }
+   };
   @action() increment(state) {
     return {
       ...state,
@@ -82,6 +87,11 @@ class Counter extends Reducer {
     return state.field + 1;
   }
   // both actions will work just equal.
+
+  // deep path exist, _.get powered.
+  @action('deep.field') incrementDeepField(state) {
+    return state.deep.field + 1;
+  }
 }
 
 export default new Counter();
