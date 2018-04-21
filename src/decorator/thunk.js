@@ -7,4 +7,4 @@ const dispatcher = (method, fn) => dispatch => dispatch(fn);
  * @method
  * @return {decorator}
  */
-export default action(undefined, dispatcher);
+export default action(undefined, undefined, dispatcher);

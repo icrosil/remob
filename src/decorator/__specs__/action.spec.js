@@ -10,6 +10,7 @@ jest.mock('../util/validation', () => jest.fn(() => {
 jest.mock('../../redux/Reducer', () => class ClassName {
   ['registerAction'] = jest.fn();
   ['registerDispatch'] = jest.fn(() => () => {});
+  ['getDispatchName'] = jest.fn(() => () => {});
 });
 
 describe('action', () => {
@@ -36,7 +37,7 @@ describe('action', () => {
     validation.mockReset();
     const result = action(field)(instance, 'method', ref);
     expect(instance.registerAction).toHaveBeenCalledWith(expect.any(Function), 'method');
-    expect(instance.registerDispatch).toHaveBeenCalledWith(expect.any(Function), 'method', expect.any(Function));
+    expect(instance.registerDispatch).toHaveBeenCalledWith(expect.any(Function), 'method');
     expect(result).toEqual({
       configurable: undefined,
       enumerable: undefined,

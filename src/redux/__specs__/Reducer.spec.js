@@ -41,11 +41,8 @@ describe('Reducer', () => {
   describe('registerDispatch', () => {
     test('should set up new dispatch', () => {
       const instance = new Reducer();
-      const dispatchable = jest.fn(() => 'dispatchable');
-      const result = instance.registerDispatch('fn', 'method', dispatchable);
-      expect(dispatchable).toHaveBeenCalledWith('Reducer.method', 'fn');
-      expect(instance.dispatches).toEqual({ method: 'dispatchable' });
-      expect(result).toEqual('dispatchable');
+      instance.registerDispatch('fn', 'method');
+      expect(instance.dispatches).toEqual({ method: 'fn' });
     });
   });
   describe('registerSelector', () => {

@@ -13,41 +13,64 @@ import actionable from '../decorator/util/actionable';
  * @type {Reducer}
  */
 export default class Reducer {
-  registerAction(fn, method) {
+  /**
+   * simple action register
+   * reducer will check this implementations to call on some change
+   */
+  registerAction(fn, path) {
     this.actions = this.getActions();
-    this.actions[method] = fn;
+    set(this.actions, path, fn);
   }
-  registerDispatch(fn, method, dispatchable) {
-    const propertyName = this.getDispatchName(method);
-    const property = dispatchable(propertyName, fn);
+  /**
+   * simple dispatch register
+   * on inherit it will get this dispatches to pass through
+   */
+  registerDispatch(fn, path) {
     this.dispatches = this.getDispatches();
-    this.dispatches[method] = property;
-    return property;
+    set(this.dispatches, path, fn);
   }
-  registerSelector(fn, method) {
+  /**
+   * simple selector register
+   * needed for inherit purposes as dispatch
+   */
+  registerSelector(fn, path) {
     this.selectors = this.getSelectors();
-    this.selectors[method] = fn;
+    set(this.selectors, path, fn);
   }
+  /**
+   * inherit register dispatches
+   * it partially makes automatic insertion of methods into class from other remob
+   * it does not push this dispatches in this.disaptches, you have to do it elsewhere
+   * like registerMixin does
+   */
   registerDispatches(dispatches, path) {
     if (typeof dispatches === 'function') {
       set(this, path, partialRight(dispatches, this.getDispatchName(path)));
     } else {
-      set(this, path, {});
       each(dispatches, (fn, fnKey) => {
         this.registerDispatches(fn, Reducer.getActionName(path, fnKey));
       });
     }
   }
+  /**
+   * inherit register action
+   * it passes implementation of actions to this.action
+   * pretending to be @action - making function to be actionable.
+   */
   registerActions(actions, path, prevPath = '') {
     if (typeof actions === 'function') {
-      set(this.actions, path, actionable(actions, prevPath, false));
+      this.registerAction(actionable(actions, prevPath, false), path);
     } else {
-      set(this.actions, path, {});
       each(actions, (fn, fnKey) => {
         this.registerActions(fn, Reducer.getActionName(path, fnKey), prevPath || path);
       });
     }
   }
+  /**
+   * inherit register mixin
+   * manually pushes registers for dispatch and selectors, as well as initial state
+   * automatically passes actionale and dispatchables with registerDispatches and registerActions.
+   */
   registerMixin(mixin, mixinKey) {
     const {
       actions, dispatches, initialState, selectors,
@@ -58,6 +81,7 @@ export default class Reducer {
     this.registerActions(actions, mixinKey);
     this.registerDispatches(dispatches, mixinKey);
   }
+  // getters
   getInitialState(initialState) {
     return initialState || this.initialState || {};
   }
@@ -71,20 +95,26 @@ export default class Reducer {
     return this.selectors || {};
   }
   constructor(initialState) {
+    // binds
     this.registerDispatches = this.registerDispatches.bind(this);
     this.registerActions = this.registerActions.bind(this);
     this.registerMixin = this.registerMixin.bind(this);
+    this.getDispatchName = this.getDispatchName.bind(this);
+    this.getClearActionType = this.getClearActionType.bind(this);
     this.reducer = this.reducer.bind(this);
+    // default setters
     this.actions = this.getActions();
     this.dispatches = this.getDispatches();
     this.initialState = this.getInitialState(initialState);
     this.selectors = this.getSelectors();
+    // mixin registrator
     each(this.initialState, (value, key) => {
       if (value instanceof Reducer) {
         this.registerMixin(value, key);
       }
     });
   }
+  // path helpers
   getClearActionType(action) {
     return action.type.split(`${this.constructor.name}.`).pop();
   }

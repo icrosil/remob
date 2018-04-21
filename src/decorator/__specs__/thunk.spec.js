@@ -1,7 +1,7 @@
 import thunk from '../thunk';
 import action from '../action';
 
-jest.mock('../action', () => jest.fn((method, dispatch) => () => dispatch));
+jest.mock('../action', () => jest.fn((method, isFullState, dispatch) => () => dispatch));
 
 describe('thunk', () => {
   test('should be a function', () => {
@@ -9,7 +9,7 @@ describe('thunk', () => {
   });
 
   test('should call action on init', () => {
-    expect(action).toHaveBeenCalledWith(undefined, expect.any(Function));
+    expect(action).toHaveBeenCalledWith(undefined, undefined, expect.any(Function));
   });
 
   describe('dispatcher', () => {

@@ -13,8 +13,12 @@ export default (field, isFullState, dispatchable = defaultDispatchable) => (klas
   const { value: fn, configurable, enumerable } = _ref;
   const boundFn = fn.bind(klass);
   validation(klass, fn, method, 'action');
+  // actionable
   klass.registerAction(actionable(boundFn, field, isFullState), method);
-  const property = klass.registerDispatch(boundFn, method, dispatchable);
+  // dispatchable
+  const propertyName = klass.getDispatchName(method);
+  const property = dispatchable(propertyName, boundFn);
+  klass.registerDispatch(property, method);
   return {
     configurable,
     enumerable,
