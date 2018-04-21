@@ -1,15 +1,13 @@
 import selector from '../selector';
-import { validate } from '../util/decorator';
-import Reducer from '../Reducer';
+import validation from '../util/validation';
+import Reducer from '../../redux/Reducer';
 
-jest.mock('../util/decorator', () => ({
-  validate: jest.fn(() => {
-    const error = { value: 'issue' };
-    throw error;
-  }),
+jest.mock('../util/validation', () => jest.fn(() => {
+  const error = { value: 'issue' };
+  throw error;
 }));
 
-jest.mock('../Reducer', () => class ClassName {
+jest.mock('../../redux/Reducer', () => class ClassName {
   ['registerSelector'] = jest.fn();
 });
 
@@ -27,12 +25,12 @@ describe('selector', () => {
     try {
       selector(Reducer, 'method', ref);
     } catch (e) {
-      expect(validate).toHaveBeenCalledWith(Reducer, ref.value, 'method', 'selector');
+      expect(validation).toHaveBeenCalledWith(Reducer, ref.value, 'method', 'selector');
     }
   });
 
   test('should registrate everything', () => {
-    validate.mockReset();
+    validation.mockReset();
     const result = selector(instance, 'method', ref);
     expect(instance.registerSelector).toHaveBeenCalledWith(expect.any(Function), 'method');
     expect(result).toEqual({

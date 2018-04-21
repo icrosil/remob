@@ -1,15 +1,13 @@
 import action from '../action';
-import { validate } from '../util/decorator';
-import Reducer from '../Reducer';
+import validation from '../util/validation';
+import Reducer from '../../redux/Reducer';
 
-jest.mock('../util/decorator', () => ({
-  validate: jest.fn(() => {
-    const error = { value: 'issue' };
-    throw error;
-  }),
+jest.mock('../util/validation', () => jest.fn(() => {
+  const error = { value: 'issue' };
+  throw error;
 }));
 
-jest.mock('../Reducer', () => class ClassName {
+jest.mock('../../redux/Reducer', () => class ClassName {
   ['registerAction'] = jest.fn();
   ['registerDispatch'] = jest.fn(() => () => {});
 });
@@ -30,12 +28,12 @@ describe('action', () => {
     try {
       action(field)(Reducer, 'method', ref);
     } catch (e) {
-      expect(validate).toHaveBeenCalledWith(Reducer, ref.value, 'method', 'action');
+      expect(validation).toHaveBeenCalledWith(Reducer, ref.value, 'method', 'action');
     }
   });
 
   test('should registrate everything', () => {
-    validate.mockReset();
+    validation.mockReset();
     const result = action(field)(instance, 'method', ref);
     expect(instance.registerAction).toHaveBeenCalledWith(expect.any(Function), 'method');
     expect(instance.registerDispatch).toHaveBeenCalledWith(expect.any(Function), 'method', expect.any(Function));

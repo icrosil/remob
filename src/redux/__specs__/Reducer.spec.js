@@ -1,4 +1,4 @@
-import { action, selector, Reducer } from '../';
+import { action, selector, Reducer } from '../../';
 
 describe('Reducer', () => {
   test('should work fine with mixin', () => {

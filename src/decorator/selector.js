@@ -1,4 +1,4 @@
-import { validate } from './util/decorator';
+import validation from './util/validation';
 
 /**
  * selector decorator to create mappers from state
@@ -10,7 +10,7 @@ import { validate } from './util/decorator';
  */
 export default (klass, method, _ref) => {
   const { value: fn, configurable, enumerable } = _ref;
-  validate(klass, fn, method, 'selector');
+  validation(klass, fn, method, 'selector');
   klass.registerSelector(fn, method);
   return {
     configurable,

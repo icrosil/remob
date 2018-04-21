@@ -1,4 +1,4 @@
-import { validate } from './util/decorator';
+import validation from './util/validation';
 import actionable from './util/actionable';
 
 const defaultDispatchable = method => (dispatch, options = {}, type = method) => dispatch({ ...options, type });
@@ -12,7 +12,7 @@ const defaultDispatchable = method => (dispatch, options = {}, type = method) =>
 export default (field, isFullState, dispatchable = defaultDispatchable) => (klass, method, _ref) => {
   const { value: fn, configurable, enumerable } = _ref;
   const boundFn = fn.bind(klass);
-  validate(klass, fn, method, 'action');
+  validation(klass, fn, method, 'action');
   klass.registerAction(actionable(boundFn, field, isFullState), method);
   const property = klass.registerDispatch(boundFn, method, dispatchable);
   return {

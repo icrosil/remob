@@ -3,7 +3,7 @@ import set from 'lodash/set';
 import each from 'lodash/each';
 import partialRight from 'lodash/partialRight';
 
-import actionable from './util/actionable';
+import actionable from '../decorator/util/actionable';
 
 /**
  * Reducer class to create reducers,

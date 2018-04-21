@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { Reducer, combineRemob } from '../';
+import { Reducer, combineRemob } from '../../';
 
 jest.mock('redux', () => ({
   combineReducers: jest.fn(),
