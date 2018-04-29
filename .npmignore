@@ -1,5 +1,9 @@
-dist
+# removing unnecesary files for build
+# dist
+example
+*spec.js
 
+# commons
 # Logs
 logs
 *.log
