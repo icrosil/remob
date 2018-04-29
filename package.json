@@ -1,6 +1,6 @@
 {
   "name": "remob",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Rethinking of Redux and MobX",
   "main": "src/index.js",
   "module": "dist/remob.js",
