@@ -30,7 +30,6 @@ deploy:
     node: '8'
     repo: icrosil/remob
     all_branches: true
-  tag: next
 
 notifications:
   email:

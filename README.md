@@ -58,7 +58,7 @@ export default new Counter();
 ```
 
 #### action
-Is a decorator to use within Reducer. You have to use it like function `@action()`.
+Is a decorator to use within Reducer. You may use it like function `@action()` or like statement `@action`.
 Using this on some function in remob will produce next actions:
 - registrate action to remob and reducer
 - make this function to be dispatchable
@@ -76,7 +76,8 @@ class Counter extends Reducer {
     deep: {
       field: 42,
     }
-   };
+  };
+  // @action would do the same
   @action() increment(state) {
     return {
       ...state,

@@ -7,6 +7,14 @@ class SimpleReducer extends Reducer {
       field: 42,
     },
   };
+  @action shuffleReducer() {
+    return {
+      field: Math.random(),
+      deep: {
+        field: Math.random(),
+      },
+    };
+  }
   @action('field') randomize() {
     return Math.random();
   }

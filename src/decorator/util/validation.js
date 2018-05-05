@@ -1,5 +1,7 @@
 import Reducer from '../../redux/Reducer';
 
+export const validateInstance = klass => (klass instanceof Reducer);
+
 /**
  * validator for correct decorator usage
  * @method validation

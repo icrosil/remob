@@ -1,4 +1,4 @@
-import validation from './util/validation';
+import validation, { validateInstance } from './util/validation';
 import actionable from './util/actionable';
 
 const defaultDispatchable = method => (dispatch, options = {}, type = method) => dispatch({ ...options, type });
@@ -9,7 +9,7 @@ const defaultDispatchable = method => (dispatch, options = {}, type = method) =>
  * @param  {String|Undefined} field list or element what will be changed
  * @return {Function}       updated function with magical changes
  */
-export default (field, isFullState, dispatchable = defaultDispatchable) => (klass, method, _ref) => {
+const actionAsFunction = (field, isFullState, dispatchable = defaultDispatchable) => (klass, method, _ref) => {
   const { value: fn, configurable, enumerable } = _ref;
   const boundFn = fn.bind(klass);
   validation(klass, fn, method, 'action');
@@ -27,3 +27,12 @@ export default (field, isFullState, dispatchable = defaultDispatchable) => (klas
     },
   };
 };
+
+export default function action(...args) {
+  const [klass] = args;
+  // if called as @action
+  if (validateInstance(klass)) {
+    return actionAsFunction()(...args);
+  }
+  return actionAsFunction(...args);
+}
