@@ -8,6 +8,12 @@
   "author": "Illia Olenchenko <icrosil@gmail.com>",
   "license": "MIT",
   "private": false,
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
   "keywords": [
     "redux",
     "mobx",
@@ -20,7 +26,7 @@
     "lint": "eslint ./src ./example",
     "test": "jest ./",
     "coveralls": "coveralls < coverage/lcov.info",
-    "build": "NODE_ENV=production rollup -c -o dist/remob.js",
+    "build": "cross-env NODE_ENV=production rollup -c -o dist/remob.js",
     "size": "size-limit",
     "deps": "yarn nsp check; yarn outdated;"
   },
@@ -35,6 +41,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "coveralls": "^3.0.1",
+    "cross-env": "^5.1.5",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.11.0",
