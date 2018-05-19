@@ -28,7 +28,7 @@
     "coveralls": "coveralls < coverage/lcov.info",
     "build": "cross-env NODE_ENV=production rollup -c -o dist/remob.js",
     "size": "size-limit",
-    "deps": "yarn nsp check; yarn outdated;"
+    "deps": "yarn nsp check && yarn outdated;"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
