@@ -21,7 +21,7 @@ const mapSelectorsToDispatch = (selectors, state, statePath, opts) => ({
 const mapActionToDispatch = (actions, store, dispatch, opts, actionPrefix = '') => mapValues(
   actions,
   (action, actionKey) => {
-    const path = Reducer.getActionDispatchName(actionPrefix, actionKey);
+    const path = Reducer.getActionName(actionPrefix, actionKey);
     if (typeof action === 'function') {
       return value => get(store, path)(dispatch, { opts, value });
     }

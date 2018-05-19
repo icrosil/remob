@@ -9,4 +9,8 @@ class HardRandomizer extends Reducer {
   }
 }
 
-export default new HardRandomizer();
+const instance = new HardRandomizer();
+
+instance.debug();
+
+export default instance;

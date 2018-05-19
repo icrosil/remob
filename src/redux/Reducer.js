@@ -12,7 +12,29 @@ import actionable from '../decorator/util/actionable';
  * contains reducer implementation which resolves registered actions.
  * @type {Reducer}
  */
-export default class Reducer {
+class Reducer {
+  commonDebug(registrations, registered, path) {
+    const passedRegistered = registered || registrations;
+    const passedPath = path || this.getDispatchName();
+    Object.keys(passedRegistered).forEach((actionKey) => {
+      const action = passedRegistered[actionKey];
+      const actionPath = `${passedPath}${passedPath ? '.' : ''}${actionKey}`;
+      if (typeof action === 'function') {
+        console.log(actionPath);
+      } else {
+        this.commonDebug(registrations, action, actionPath);
+      }
+    });
+  }
+  debug(actions, path) {
+    if (!actions && !path) {
+      console.log(this.getDispatchName(), 'remob');
+    }
+    console.log('actions');
+    this.commonDebug(this.actions);
+    console.log('selectors');
+    this.commonDebug(this.selectors);
+  }
   /**
    * simple action register
    * reducer will check this implementations to call on some change
@@ -101,6 +123,8 @@ export default class Reducer {
     this.registerMixin = this.registerMixin.bind(this);
     this.getDispatchName = this.getDispatchName.bind(this);
     this.getClearActionType = this.getClearActionType.bind(this);
+    this.debug = this.debug.bind(this);
+    this.commonDebug = this.commonDebug.bind(this);
     this.reducer = this.reducer.bind(this);
     // default setters
     this.actions = this.getActions();
@@ -118,18 +142,19 @@ export default class Reducer {
   getClearActionType(action) {
     return action.type.split(`${this.constructor.name}.`).pop();
   }
-  static getActionName(path, fnKey) {
-    return `${path}.${fnKey}`;
-  }
-  static getActionDispatchName(path, fnKey) {
-    return `${path}${path ? '.' : ''}${fnKey}`;
+  static getActionName(path, fnKey = '') {
+    return `${path}${path && fnKey ? '.' : ''}${fnKey}`;
   }
   getDispatchName(path) {
-    return `${this.constructor.name}.${path}`;
+    return Reducer.getActionName(this.constructor.name, path);
   }
+  // reducer
   reducer(state = this.initialState, action) {
     const clearActionType = this.getClearActionType(action);
     const callableAction = get(this.actions, clearActionType);
     return callableAction ? callableAction(state, action) : state;
   }
 }
+
+
+export default Reducer;

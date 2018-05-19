@@ -57,6 +57,10 @@ class Counter extends Reducer {
 export default new Counter();
 ```
 
+##### debug
+To see all actions and selectors that remob registered, you can use
+`remob.debug()` method - this will `console.log` every registered action and selector.
+
 #### action
 Is a decorator to use within Reducer. You may use it like function `@action()` or like statement `@action`.
 Using this on some function in remob will produce next actions:

@@ -136,13 +136,4 @@ describe('Reducer', () => {
       expect(nextState).toEqual('nextState');
     });
   });
-  describe('getActionDispatchName', () => {
-    test('should be a static function', () => {
-      expect(Reducer.getActionDispatchName).toEqual(expect.any(Function));
-    });
-    test('should set dotted prefix', () => {
-      expect(Reducer.getActionDispatchName('', 'path')).toEqual('path');
-      expect(Reducer.getActionDispatchName('prefix', 'path')).toEqual('prefix.path');
-    });
-  });
 });
