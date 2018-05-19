@@ -18,7 +18,7 @@ class Reducer {
     const passedPath = path || this.getDispatchName();
     Object.keys(passedRegistered).forEach((actionKey) => {
       const action = passedRegistered[actionKey];
-      const actionPath = `${passedPath}${passedPath ? '.' : ''}${actionKey}`;
+      const actionPath = Reducer.getActionName(passedPath, actionKey);
       if (typeof action === 'function') {
         console.log(actionPath);
       } else {

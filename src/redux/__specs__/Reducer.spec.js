@@ -136,4 +136,37 @@ describe('Reducer', () => {
       expect(nextState).toEqual('nextState');
     });
   });
+  describe('debug', () => {
+    class ExampleReducer extends Reducer {
+      @action func() {
+        return 1;
+      }
+    }
+    const instance = new ExampleReducer();
+    class InheritReducer extends Reducer {
+      @action func1() {
+        return 1;
+      }
+      getInitialState() {
+        return {
+          instance,
+        };
+      }
+    }
+    const inheritInstance = new InheritReducer();
+    describe('commonDebug', () => {
+      it('should be a callable function with 3 params', () => {
+        expect(inheritInstance.commonDebug).toEqual(expect.any(Function));
+        expect(inheritInstance.commonDebug).toHaveLength(3);
+        expect(inheritInstance.commonDebug(inheritInstance.actions)).toBe(undefined);
+      });
+    });
+    describe('debug', () => {
+      it('should be a callable function with 2 params', () => {
+        expect(inheritInstance.debug).toEqual(expect.any(Function));
+        expect(inheritInstance.debug).toHaveLength(2);
+        expect(inheritInstance.debug(inheritInstance.actions)).toBe(undefined);
+      });
+    });
+  });
 });
