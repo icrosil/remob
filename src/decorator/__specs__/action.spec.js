@@ -56,4 +56,18 @@ describe('action', () => {
     });
     expect(result.get()).toEqual(expect.any(Function));
   });
+
+  test('should registrate function @action(func)', () => {
+    validateInstance.mockImplementation(() => false);
+    validation.mockReset();
+    const result = action(() => field)(instance, 'method', ref);
+    expect(instance.registerAction).toHaveBeenCalledWith(expect.any(Function), 'method');
+    expect(instance.registerDispatch).toHaveBeenCalledWith(expect.any(Function), 'method');
+    expect(result).toEqual({
+      configurable: undefined,
+      enumerable: undefined,
+      get: expect.any(Function),
+    });
+    expect(result.get()).toEqual(expect.any(Function));
+  });
 });

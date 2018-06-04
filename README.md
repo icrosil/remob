@@ -97,6 +97,10 @@ class Counter extends Reducer {
   @action('deep.field') incrementDeepField(state) {
     return state.deep.field + 1;
   }
+  // functions supported, more dynamic for your needed flow
+  @action(state => (Math.random() > 0.5 ? 'field' : 'deep.field')) changeRandomPart(state) {
+    return Math.random();
+  }
 }
 
 export default new Counter();

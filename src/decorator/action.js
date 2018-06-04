@@ -6,7 +6,7 @@ const defaultDispatchable = method => (dispatch, options = {}, type = method) =>
 /**
  * action decorator
  * @method
- * @param  {String|Undefined} field list or element what will be changed
+ * @param  {Function|String|Undefined} field list or element what will be changed
  * @return {Function}       updated function with magical changes
  */
 const actionAsFunction = (field, isFullState, dispatchable = defaultDispatchable) => (klass, method, _ref) => {
@@ -29,9 +29,8 @@ const actionAsFunction = (field, isFullState, dispatchable = defaultDispatchable
 };
 
 export default function action(...args) {
-  const [klass] = args;
   // if called as @action
-  if (validateInstance(klass)) {
+  if (validateInstance(...args)) {
     return actionAsFunction()(...args);
   }
   return actionAsFunction(...args);
