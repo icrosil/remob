@@ -1,9 +1,8 @@
 {
-  "extends": "airbnb",
+  "extends": "airbnb-base",
   "parser": "babel-eslint",
   "rules": {
     "max-len": [2, 120],
-    "react/jsx-filename-extension": [1, { "extensions": [".js"] }],
     "class-methods-use-this": [0],
   },
   "env": {

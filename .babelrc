@@ -1,19 +1,8 @@
 {
   "env": {
-    "development": {
-      "presets": [
-        "env",
-        "react",
-        "stage-1"
-      ],
-      "plugins": [
-        "transform-decorators-legacy"
-      ]
-    },
     "test": {
       "presets": [
         "env",
-        "react",
         "stage-1"
       ],
       "plugins": [
@@ -22,10 +11,18 @@
     },
     "production": {
       "presets": [
-        "es2015-rollup",
-        "stage-1"
+        [
+          "env",
+          {
+            "targets": {
+              "node": "current",
+              "browsers": ["last 2 versions"]
+            },
+            "modules": false
+          }
+        ]
       ],
-      "plugins": ["external-helpers"]
+      "plugins": ["external-helpers", "transform-object-rest-spread"]
     }
   }
 
