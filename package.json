@@ -24,6 +24,7 @@
   "scripts": {
     "lint": "eslint ./src",
     "test": "jest ./",
+    "test:ci": "jest ./ --coverage",
     "coveralls": "coveralls < coverage/lcov.info",
     "build": "cross-env NODE_ENV=production rollup -c -o dist/remob.js",
     "size": "size-limit",

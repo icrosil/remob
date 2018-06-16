@@ -13,7 +13,7 @@ cache:
 script:
   - yarn deps
   - yarn lint
-  - yarn test
+  - yarn test:ci
   - yarn build
   - yarn size
 

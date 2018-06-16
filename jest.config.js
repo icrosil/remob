@@ -2,7 +2,7 @@ module.exports = {
   transform: {
     '^.+\\.js$': 'babel-jest',
   },
-  collectCoverage: true,
+  collectCoverage: false,
   coverageThreshold: {
     global: {
       branches: 90,
