@@ -1,7 +1,9 @@
 import { action, selector, Reducer } from '../../';
 
 describe('Reducer', () => {
-  const dispatch = jest.fn();
+  const dispatch = (reducer, act) => {
+    reducer(undefined, act);
+  };
   test('should work fine with mixin', () => {
     class RealReducer extends Reducer {
       initialState = {
@@ -184,7 +186,7 @@ describe('Reducer', () => {
       }
     }
     const instance = new ExampleReducer();
-    it('should take < 0.01s to create simple remob', () => {
+    it('should take < 2ms to create simple remob', () => {
       const diff = perf(() => {
         class SomeReducer extends Reducer {
           @action perf() {
@@ -194,13 +196,13 @@ describe('Reducer', () => {
         const instanceSome = new SomeReducer();
         return instanceSome;
       });
-      expect(diff).toBeCloseTo(0, 2);
+      expect(diff).toBeLessThan(2);
     });
-    it('should take < 0.01s to call action of remob', () => {
+    it('should take < 2ms to call action of remob', () => {
       const diff = perf(() => {
-        instance.perf(dispatch);
+        instance.perf(act => dispatch(instance.reducer, act));
       });
-      expect(diff).toBeCloseTo(0, 2);
+      expect(diff).toBeLessThan(2);
     });
   });
 });
