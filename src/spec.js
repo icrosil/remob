@@ -1,4 +1,4 @@
-import * as remob from './';
+import * as remob from '.';
 
 describe('index', () => {
   test('should export all features', () => {

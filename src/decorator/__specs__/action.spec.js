@@ -6,7 +6,9 @@ jest.mock('../util/validation');
 
 jest.mock('../../redux/Reducer', () => class ClassName {
   ['registerAction'] = jest.fn();
+
   ['registerDispatch'] = jest.fn(() => () => {});
+
   ['getDispatchName'] = jest.fn(() => () => {});
 });
 

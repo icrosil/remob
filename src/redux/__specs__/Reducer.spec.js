@@ -1,4 +1,4 @@
-import { action, selector, Reducer } from '../../';
+import { action, selector, Reducer } from '../..';
 
 describe('Reducer', () => {
   const dispatch = (reducer, act) => {
@@ -12,12 +12,15 @@ describe('Reducer', () => {
           field: 42,
         },
       }
+
       @action('field') setTwo() {
         return 2;
       }
+
       @action('deep.field') setDeepThree() {
         return 3;
       }
+
       @selector getOne() {
         return 11;
       }
@@ -150,6 +153,7 @@ describe('Reducer', () => {
       @action func1() {
         return 1;
       }
+
       getInitialState() {
         return {
           instance,

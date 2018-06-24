@@ -1,4 +1,6 @@
-import { inject, action, Reducer, selector } from '../../';
+import {
+  inject, action, Reducer, selector,
+} from '../..';
 
 describe('inject', () => {
   const mockConnect = (mapState, mapDispatch, mapMerge) => {
@@ -17,9 +19,11 @@ describe('inject', () => {
     initialState = {
       field: 1,
     }
+
     @action('field') setTwo() {
       return 2;
     }
+
     @selector getOne() {
       return 11;
     }

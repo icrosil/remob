@@ -26,6 +26,7 @@ class Reducer {
       }
     });
   }
+
   debug(actions, path) {
     if (!actions && !path) {
       console.log(this.getDispatchName(), 'remob');
@@ -35,6 +36,7 @@ class Reducer {
     console.log('selectors');
     this.commonDebug(this.selectors);
   }
+
   /**
    * simple action register
    * reducer will check this implementations to call on some change
@@ -43,6 +45,7 @@ class Reducer {
     this.actions = this.getActions();
     set(this.actions, path, fn);
   }
+
   /**
    * simple dispatch register
    * on inherit it will get this dispatches to pass through
@@ -51,6 +54,7 @@ class Reducer {
     this.dispatches = this.getDispatches();
     set(this.dispatches, path, fn);
   }
+
   /**
    * simple selector register
    * needed for inherit purposes as dispatch
@@ -59,6 +63,7 @@ class Reducer {
     this.selectors = this.getSelectors();
     set(this.selectors, path, fn);
   }
+
   /**
    * inherit register dispatches
    * it partially makes automatic insertion of methods into class from other remob
@@ -74,6 +79,7 @@ class Reducer {
       });
     }
   }
+
   /**
    * inherit register action
    * it passes implementation of actions to this.action
@@ -88,6 +94,7 @@ class Reducer {
       });
     }
   }
+
   /**
    * inherit register mixin
    * manually pushes registers for dispatch and selectors, as well as initial state
@@ -103,19 +110,24 @@ class Reducer {
     this.registerActions(actions, mixinKey);
     this.registerDispatches(dispatches, mixinKey);
   }
+
   // getters
   getInitialState(initialState) {
     return initialState || this.initialState || {};
   }
+
   getActions() {
     return this.actions || {};
   }
+
   getDispatches() {
     return this.dispatches || {};
   }
+
   getSelectors() {
     return this.selectors || {};
   }
+
   constructor(initialState) {
     // binds
     this.registerDispatches = this.registerDispatches.bind(this);
@@ -138,16 +150,20 @@ class Reducer {
       }
     });
   }
+
   // path helpers
   getClearActionType(action) {
     return action.type.split(`${this.constructor.name}.`).pop();
   }
+
   static getActionName(path, fnKey = '') {
     return `${path}${path && fnKey ? '.' : ''}${fnKey}`;
   }
+
   getDispatchName(path) {
     return Reducer.getActionName(this.constructor.name, path);
   }
+
   // reducer
   reducer(state = this.initialState, action) {
     const clearActionType = this.getClearActionType(action);
