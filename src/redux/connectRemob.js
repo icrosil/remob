@@ -1,4 +1,5 @@
 import findKey from 'lodash/findKey';
+import isObject from 'lodash/isObject';
 
 import { registeredRemobs } from './combineRemob';
 import inject from './inject';
@@ -25,6 +26,12 @@ const connectRemob = (...args) => {
     } else if (arg instanceof Reducer) {
       key = findKey(registeredRemobs, arg);
       remob = arg;
+    } else if (isObject(arg)) {
+      const entries = Object.entries(arg);
+      entries.forEach(([entryKey, entryValue]) => {
+        injectArgs[entryKey] = entryValue;
+      });
+      return;
     }
     injectArgs[key] = remob;
   });
