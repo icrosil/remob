@@ -14,4 +14,9 @@ describe('combineRemob', () => {
     combineRemob({ instance, notRemob: () => {} });
     expect(combineReducers).toHaveBeenCalled();
   });
+  test('should throw if remob names duplicating', () => {
+    expect(() => {
+      combineRemob({ instance, instance2: instance });
+    }).toThrow();
+  });
 });
