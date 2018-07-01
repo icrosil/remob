@@ -37,13 +37,15 @@ Enjoy to use it =)
 - `import remob from 'remob';`
 
 ## API
-Remob has 6 exports from index file, they are:
+Remob has 8 exports from index file, they are:
 - Reducer
 - action
 - selector
 - thunk
 - inject
 - combineRemob
+- connectRemob
+- setConnector
 
 #### Reducer
 Is a main class to start with. When you want to create new remob you should import `Reducer` and extend remob from `Reducer` or another remob. Inside of `Reducer` live only registrators and reducer implementation.
@@ -160,6 +162,48 @@ import { createStore } from 'redux'
 import stores from '../stores'
 
 createStore(combineRemob(stores))
+```
+
+Make sure you pass uniq names for stores as it will throw an error if you have any duplicate.
+
+#### connectRemob
+For easy connect stores to components use `connectRemob` method.
+It is simple facade over connector (such as `react-redux` provides).
+`connectRemob` doesn't have default connector so you have to pass your connector.
+Please have a look to `setConnector` method.
+
+Interface gives ability to pass remobs in 3 ways:
+- strings
+- remob
+- object with remobs
+
+```
+// assume 3 stores already exist named 'store1', 'store2', 'store3'
+import { connectRemob } from 'remob'
+import store2 from '../stores/store2'
+
+const Component = props => <YourAwesomeComponent {...props} />;
+
+// string store
+connectRemob('store1')(YourAwesomeComponent);
+// instance store
+connectRemob(store2)(YourAwesomeComponent);
+// object store
+connectRemob({ store4: store2 })(YourAwesomeComponent);
+```
+
+It will automatically get already registered remobs and pass them to component.
+Names will be taken from `combineRemob` by keys assigned to each remob.
+You can override this names by passing object of remobs.
+
+#### setConnector
+Defines what exact connector will be used on `connectRemob` method.
+
+```
+import { setConnector } from 'remob';
+import { connect } from 'react-redux';
+
+setConnector(connect);
 ```
 
 ## influence
