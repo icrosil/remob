@@ -8,5 +8,7 @@ describe('index', () => {
     expect(remob).toHaveProperty('Reducer');
     expect(remob).toHaveProperty('selector');
     expect(remob).toHaveProperty('thunk');
+    expect(remob).toHaveProperty('connectRemob');
+    expect(remob).toHaveProperty('setConnector');
   });
 });
