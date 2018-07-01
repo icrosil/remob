@@ -22,7 +22,6 @@ describe('connectRemob', () => {
 
   describe('with connector', () => {
     class RealReducer extends Reducer {}
-    const instance = new RealReducer();
     const connect = jest.fn();
     beforeEach(() => {
       setConnector(connect);
@@ -32,15 +31,22 @@ describe('connectRemob', () => {
       expect(connect).toHaveBeenCalled();
     });
     it("should work with 'remob' interface", () => {
+      const instance = new RealReducer();
       combineRemob({ instance });
-      connectRemob('RealReducer');
+      connectRemob('instance');
       expect(inject).toHaveBeenCalledWith({
-        RealReducer: instance,
+        instance,
+      });
+    });
+    it('should work with remob interface', () => {
+      const instance2 = new RealReducer();
+      combineRemob({ instance2 });
+      connectRemob(instance2);
+      expect(inject).toHaveBeenCalledWith({
+        instance2,
       });
     });
   });
-  // TODO interface1 - ('remob1', 'remob2')
-  // TODO interface2 - (remob1, remob2)
   // TODO interface3 - ({ remob1: remob2 })
   // TODO interface4 - combined
   // TODO add way to change names of reducers
