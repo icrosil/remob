@@ -46,6 +46,7 @@ Remob has 8 exports from index file, they are:
 - combineRemob
 - connectRemob
 - setConnector
+- setCombiner
 
 #### Reducer
 Is a main class to start with. When you want to create new remob you should import `Reducer` and extend remob from `Reducer` or another remob. Inside of `Reducer` live only registrators and reducer implementation.
@@ -204,6 +205,17 @@ import { setConnector } from 'remob';
 import { connect } from 'react-redux';
 
 setConnector(connect);
+```
+
+#### setCombiner
+Defines what exact combineReducers for injection.
+Setup this on state initiating.
+
+```
+import { setCombiner } from 'remob';
+import { combineReducers } from 'redux';
+
+setCombiner(combineReducers);
 ```
 
 ## influence

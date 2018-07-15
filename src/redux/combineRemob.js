@@ -1,10 +1,19 @@
-import { combineReducers } from 'redux';
 import mapValues from 'lodash/mapValues';
 import isObject from 'lodash/isObject';
 
 import Reducer from './Reducer';
 
 export const registeredRemobs = {};
+
+const defaultCombiner = () => {
+  throw new Error('You forgot to combineReducers');
+};
+
+let combineReducers;
+
+export const setCombiner = (combiner) => {
+  combineReducers = combiner;
+};
 
 /**
  * combineRemob gathers reducers from simple reducers and remobs
@@ -22,5 +31,5 @@ export default (remobs) => {
     }
     return Remob;
   });
-  return combineReducers(reducers);
+  return (combineReducers || defaultCombiner)(reducers);
 };

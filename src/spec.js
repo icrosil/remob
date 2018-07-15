@@ -10,5 +10,6 @@ describe('index', () => {
     expect(remob).toHaveProperty('thunk');
     expect(remob).toHaveProperty('connectRemob');
     expect(remob).toHaveProperty('setConnector');
+    expect(remob).toHaveProperty('setCombiner');
   });
 });

@@ -1,5 +1,5 @@
 import connectRemob, { setConnector } from '../connectRemob';
-import combineRemob from '../combineRemob';
+import combineRemob, { setCombiner } from '../combineRemob';
 import Reducer from '../Reducer';
 import inject from '../inject';
 
@@ -23,11 +23,13 @@ describe('connectRemob', () => {
   describe('with connector', () => {
     class RealReducer extends Reducer {}
     const connect = jest.fn();
+    const combiner = jest.fn();
     const instance = new RealReducer();
     const instance2 = new RealReducer();
     const instance3 = new RealReducer();
     beforeEach(() => {
       setConnector(connect);
+      setCombiner(combiner);
     });
     it('should call connector after registration', () => {
       connectRemob();

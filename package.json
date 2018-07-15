@@ -55,10 +55,7 @@
     "size-limit": "^0.18.3"
   },
   "dependencies": {
-    "lodash": "^4.17.10",
-    "redux": "^4.0.0"
+    "lodash": "^4.17.10"
   },
-  "peerDependencies": {
-    "redux": "^4.0.0"
-  }
+  "peerDependencies": {}
 }
