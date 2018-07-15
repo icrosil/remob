@@ -32,6 +32,10 @@ Observables as pattern are good, but predictability and unidirectional flow wort
 So basically this is the wrapper upon Redux with decorator usage.
 Enjoy to use it =)
 
+## v0 -> v1
+Please add `setCombiner` to your code.
+Check out `setCombiner` doc [here](https://github.com/icrosil/remob#setcombiner).
+
 ## Installation
 - `yarn add remob`
 - `import remob from 'remob';`
