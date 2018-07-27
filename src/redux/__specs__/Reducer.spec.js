@@ -11,17 +11,20 @@ describe('Reducer', () => {
         deep: {
           field: 42,
         },
-      }
+      };
 
-      @action('field') setTwo() {
+      @action('field')
+      setTwo() {
         return 2;
       }
 
-      @action('deep.field') setDeepThree() {
+      @action('deep.field')
+      setDeepThree() {
         return 3;
       }
 
-      @selector getOne() {
+      @selector
+      getOne() {
         return 11;
       }
     }
@@ -91,11 +94,14 @@ describe('Reducer', () => {
     });
     test('should set up new action with prevPath', () => {
       const spy = jest.fn();
-      instance.registerActions({
-        deep: {
-          actionable: spy,
+      instance.registerActions(
+        {
+          deep: {
+            actionable: spy,
+          },
         },
-      }, 'method');
+        'method',
+      );
       expect(instance.actions.method.deep.actionable).toEqual(expect.any(Function));
       instance.actions.method.deep.actionable({ method: 0 }, 'deep.actionable.method');
       expect(spy).toHaveBeenCalledWith(0, 'deep.actionable.method');
@@ -106,12 +112,15 @@ describe('Reducer', () => {
     instance.registerActions = jest.fn();
     instance.registerDispatches = jest.fn();
     test('should set up mixin', () => {
-      instance.registerMixin({
-        initialState: 'initialState',
-        dispatches: 'dispatches',
-        selectors: 'selectors',
-        actions: 'actions',
-      }, 'mixin');
+      instance.registerMixin(
+        {
+          initialState: 'initialState',
+          dispatches: 'dispatches',
+          selectors: 'selectors',
+          actions: 'actions',
+        },
+        'mixin',
+      );
       expect(instance.initialState.mixin).toEqual('initialState');
       expect(instance.dispatches.mixin).toEqual('dispatches');
       expect(instance.selectors.mixin).toEqual('selectors');
@@ -144,13 +153,15 @@ describe('Reducer', () => {
   });
   describe('debug', () => {
     class ExampleReducer extends Reducer {
-      @action func() {
+      @action
+      func() {
         return 1;
       }
     }
     const instance = new ExampleReducer();
     class InheritReducer extends Reducer {
-      @action func1() {
+      @action
+      func1() {
         return 1;
       }
 
@@ -177,7 +188,7 @@ describe('Reducer', () => {
     });
   });
   describe('performance', () => {
-    const perf = (cb) => {
+    const perf = cb => {
       const start = new Date();
       cb();
       const end = new Date();
@@ -185,7 +196,8 @@ describe('Reducer', () => {
       return diff;
     };
     class ExampleReducer extends Reducer {
-      @action perf() {
+      @action
+      perf() {
         return 1;
       }
     }
@@ -193,7 +205,8 @@ describe('Reducer', () => {
     it('should take < 2ms to create simple remob', () => {
       const diff = perf(() => {
         class SomeReducer extends Reducer {
-          @action perf() {
+          @action
+          perf() {
             return 1;
           }
         }

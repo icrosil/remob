@@ -11,13 +11,13 @@ const defaultConnector = () => {
 
 let connectRedux;
 
-export const setConnector = (connect) => {
+export const setConnector = connect => {
   connectRedux = connect;
 };
 
 const connectRemob = (...args) => {
   const injectArgs = {};
-  args.forEach((arg) => {
+  args.forEach(arg => {
     let key;
     let remob;
     if (typeof arg === 'string') {

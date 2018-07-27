@@ -16,7 +16,7 @@ class Reducer {
   commonDebug(registrations, registered, path) {
     const passedRegistered = registered || registrations;
     const passedPath = path || this.getDispatchName();
-    Object.keys(passedRegistered).forEach((actionKey) => {
+    Object.keys(passedRegistered).forEach(actionKey => {
       const action = passedRegistered[actionKey];
       const actionPath = Reducer.getActionName(passedPath, actionKey);
       if (typeof action === 'function') {
@@ -101,9 +101,7 @@ class Reducer {
    * automatically passes actionale and dispatchables with registerDispatches and registerActions.
    */
   registerMixin(mixin, mixinKey) {
-    const {
-      actions, dispatches, initialState, selectors,
-    } = mixin;
+    const { actions, dispatches, initialState, selectors } = mixin;
     this.initialState[mixinKey] = initialState;
     this.dispatches[mixinKey] = dispatches;
     this.selectors[mixinKey] = selectors;
@@ -171,6 +169,5 @@ class Reducer {
     return callableAction ? callableAction(state, action) : state;
   }
 }
-
 
 export default Reducer;

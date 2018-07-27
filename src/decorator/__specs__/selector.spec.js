@@ -2,10 +2,12 @@ import selector from '../selector';
 import validation from '../util/validation';
 import Reducer from '../../redux/Reducer';
 
-jest.mock('../util/validation', () => jest.fn(() => {
-  const error = { value: 'issue' };
-  throw error;
-}));
+jest.mock('../util/validation', () =>
+  jest.fn(() => {
+    const error = { value: 'issue' };
+    throw error;
+  }),
+);
 
 jest.mock('../../redux/Reducer');
 

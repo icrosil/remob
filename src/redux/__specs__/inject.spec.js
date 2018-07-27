@@ -1,6 +1,4 @@
-import {
-  inject, action, Reducer, selector,
-} from '../..';
+import { inject, action, Reducer, selector } from '../..';
 
 describe('inject', () => {
   const mockConnect = (mapState, mapDispatch, mapMerge) => {
@@ -18,13 +16,15 @@ describe('inject', () => {
   class RealReducer extends Reducer {
     initialState = {
       field: 1,
-    }
+    };
 
-    @action('field') setTwo() {
+    @action('field')
+    setTwo() {
       return 2;
     }
 
-    @selector getOne() {
+    @selector
+    getOne() {
       return 11;
     }
   }
@@ -36,11 +36,7 @@ describe('inject', () => {
     const result = inject({ instance });
     expect(result).toEqual(expect.any(Array));
     expect(result).toHaveLength(3);
-    expect(result).toEqual([
-      expect.any(Function),
-      expect.any(Function),
-      expect.any(Function),
-    ]);
+    expect(result).toEqual([expect.any(Function), expect.any(Function), expect.any(Function)]);
   });
   test('should be dispatchable and statable', () => {
     const injected = inject({ instance });

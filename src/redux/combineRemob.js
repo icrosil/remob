@@ -11,7 +11,7 @@ const defaultCombiner = () => {
 
 let combineReducers;
 
-export const setCombiner = (combiner) => {
+export const setCombiner = combiner => {
   combineReducers = combiner;
 };
 
@@ -20,7 +20,7 @@ export const setCombiner = (combiner) => {
  * @method
  * @param  {Object} remobs stores
  */
-export default (remobs) => {
+export default remobs => {
   const reducers = mapValues(remobs, (Remob, remobName) => {
     if (isObject(Remob) && Remob instanceof Reducer) {
       if (registeredRemobs[remobName]) {
