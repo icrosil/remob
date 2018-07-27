@@ -7,9 +7,7 @@ jest.mock('../util/validation', () => jest.fn(() => {
   throw error;
 }));
 
-jest.mock('../../redux/Reducer', () => class ClassName {
-  ['registerSelector'] = jest.fn();
-});
+jest.mock('../../redux/Reducer');
 
 describe('selector', () => {
   const instance = new Reducer();

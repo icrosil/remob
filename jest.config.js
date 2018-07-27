@@ -2,6 +2,9 @@ module.exports = {
   transform: {
     '^.+\\.js$': 'babel-jest',
   },
+  bail: true,
+  verbose: true,
+  testEnvironment: 'node',
   collectCoverage: false,
   coverageThreshold: {
     global: {

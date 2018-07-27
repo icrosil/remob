@@ -2,28 +2,28 @@
   "env": {
     "test": {
       "presets": [
-        "env",
-        "stage-1"
+        [
+          "@babel/preset-env"
+        ]
       ],
       "plugins": [
-        "transform-decorators-legacy"
+        ["@babel/plugin-proposal-decorators", { "legacy": true }],
+        "@babel/plugin-proposal-class-properties"
       ]
     },
     "production": {
       "presets": [
         [
-          "env",
+          "@babel/preset-env",
           {
-            "targets": {
-              "node": "current",
-              "browsers": ["last 2 versions"]
-            },
             "modules": false
           }
         ]
       ],
-      "plugins": ["external-helpers", "transform-object-rest-spread"]
+      "plugins": [
+        ["@babel/plugin-proposal-decorators", { "legacy": true }],
+        "@babel/plugin-proposal-class-properties"
+      ]
     }
   }
-
 }

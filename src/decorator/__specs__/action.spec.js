@@ -4,13 +4,7 @@ import Reducer from '../../redux/Reducer';
 
 jest.mock('../util/validation');
 
-jest.mock('../../redux/Reducer', () => class ClassName {
-  ['registerAction'] = jest.fn();
-
-  ['registerDispatch'] = jest.fn(() => () => {});
-
-  ['getDispatchName'] = jest.fn(() => () => {});
-});
+jest.mock('../../redux/Reducer');
 
 describe('action', () => {
   const instance = new Reducer();
