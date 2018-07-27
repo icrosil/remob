@@ -22,7 +22,7 @@ deploy:
   api_key:
     secure: MvFbsIzXWIJ+4UPxaAhIq4h7PEOm8WYXYGL+wCuSnTZtpkLYVqVrTGfU3HfGb5NLo4Sx6FKDUuauNITIxoBFD0VYYOf7dN7V4cvhye8Lav/LPHm2Rjo+7diBYQAYZ2HouW93hauesTKLNsqQkO00+JxkVo49RV2o05eHjEyNhPO8jEX0qjtgjLiyB+NmGP0L0PKqkGDNlBG6MPl5P6vz6n2M1P8HV4omskSbKJWBNcbAex3liY94BEYjfahKah181gC7LsNXkGNbBkY4mnKS10WssdsSK8JAlEhkWf7vNLAvuFDVphYSoWsZQhzU93fmNt+u4EZVkKv0V1drAK2Wyf9nOfZyqAYzhvRxrrCKKc7CkQTak/oeGuLOQLM9hnXLy8ctp/7waGrexgN9dcC9LvOOB7Q4uCr1tEZUC9HFZ5qX6txg9vFYD1tkUQQPWZ8tEKmW5/ez0AlzaodO62Z5o9pID6tYJHYstwWzIq0U2EybhpvyIzZyuxf1O9RIJ0AdUvgkr0/sVDMvLqQE2CCv1plC6/QuRE/6s9/5RMKtxNpH5LIBDtsRyuQvspxMPutG09qGCYe9QuZANYaM8y8CEvXFs9lxeWlc4uihT57XZlCYF9oxy3pjQ1gJ0Jl1znygTgFKUhdr8gH0VxRUhlTdWlQhFz6piSxAl5GTLjgATNI=
   on:
-    node: '8'
+    node: '10'
     repo: icrosil/remob
     all_branches: true
 notifications:
